@@ -10,6 +10,7 @@ date_default_timezone_set('Africa/Nairobi');
 
 // Complete order
 if(isset($_POST['complete_order'])){
+    header('Content-Type: application/json');
     // Check if user has add permission for sales/POS
     secureAjaxEndpoint($con, 'add', null);
     $orderData = json_decode($_POST['complete_order'], true);
@@ -17,26 +18,26 @@ if(isset($_POST['complete_order'])){
     $date = date('Y-m-d H:i:s');
     $userid = $_SESSION['uid'];
     // Customer phone/name/email removed from POS complete flow
-    $customer_id = mysqli_real_escape_string($con, $orderData['customer_id']);
-    $payment_method = mysqli_real_escape_string($con, $orderData['payment_method']);
+    $customer_id = isset($orderData['customer_id']) ? (int)$orderData['customer_id'] : 0;
+    $payment_method = isset($orderData['payment_method']) ? (int)$orderData['payment_method'] : 0;
     $amount_paid = $orderData['amount_paid'];
     $total = $orderData['total'];
     $notes = mysqli_real_escape_string($con, $orderData['notes']);
     
-    // Handle customer selection
-    if(!empty($customer_id)){
-        // Customer selected from dropdown - use existing customer
-        $stmt = "SELECT customer_id FROM customer WHERE customer_id = '$customer_id'";
-        $result = mysqli_query($con, $stmt);
-        if(mysqli_num_rows($result) > 0){
-            // Customer exists, use it
-            $customer_id = $customer_id;
+    // Resolve customer ID to a valid existing row
+    $resolved_customer_id = 0;
+    if($customer_id > 0){
+        $chk = mysqli_query($con, "SELECT customer_id FROM customer WHERE customer_id = $customer_id");
+        if($chk && mysqli_num_rows($chk) > 0){ $resolved_customer_id = $customer_id; }
+    }
+    if($resolved_customer_id === 0){
+        $fallback = mysqli_query($con, "SELECT customer_id FROM customer ORDER BY customer_id ASC LIMIT 1");
+        if($fallback && ($rowc = mysqli_fetch_assoc($fallback))){
+            $resolved_customer_id = (int)$rowc['customer_id'];
         } else {
-            // Customer ID doesn't exist, fallback to default
-            $customer_id = 29;
+            echo json_encode(['error' => 'no_customer', 'message' => 'No customers found to assign to the order.']);
+            exit;
         }
-    } else {
-        $customer_id = 29; // Default customer
     }
     
     // Generate invoice number
@@ -59,9 +60,21 @@ if(isset($_POST['complete_order'])){
         $payment_status = 'Partial payment';
     }
     
+    // Validate payment account (if provided) to satisfy FK (orders.pay_method -> account.account_id)
+    $pay_method_sql = 'NULL';
+    if($payment_method > 0){
+        $chkAcc = mysqli_query($con, "SELECT account_id FROM account WHERE account_id = $payment_method");
+        if($chkAcc && mysqli_num_rows($chkAcc) > 0){
+            $pay_method_sql = (string)$payment_method;
+        } else {
+            echo json_encode(['error' => 'invalid_account', 'message' => 'Selected payment method is invalid.']);
+            exit;
+        }
+    }
+
     // Create order
-    $stmt = "INSERT INTO orders (cust_id, order_status, order_by, trans_date, warehouse, ser, pr_be_dis, pr_af_dis, amount, balance, payment_status, discount_on_all) 
-             VALUES ($customer_id, 'completed', $userid, '$date', 1, '$invoice_number', $pr_be_dis, $pr_af_dis, $amount_paid, $balance, '$payment_status', $discount)";
+    $stmt = "INSERT INTO orders (cust_id, order_status, order_by, trans_date, warehouse, ser, pr_be_dis, pr_af_dis, amount, balance, payment_status, discount_on_all, pay_method) 
+             VALUES ($resolved_customer_id, 'completed', $userid, '$date', 1, '$invoice_number', $pr_be_dis, $pr_af_dis, $amount_paid, $balance, '$payment_status', $discount, $pay_method_sql)";
     
     if(mysqli_query($con, $stmt)){
         $order_id = mysqli_insert_id($con);
@@ -83,11 +96,11 @@ if(isset($_POST['complete_order'])){
             mysqli_query($con, $stmt);
         }
         
-        echo 'success';
+        echo json_encode(['success' => true, 'order_id' => $order_id, 'invoice' => $invoice_number]);
     } else {
-        echo 'Error creating order: ' . mysqli_error($con);
+        echo json_encode(['error' => 'create_failed', 'message' => mysqli_error($con)]);
     }
-    
+
     exit;
 }
 

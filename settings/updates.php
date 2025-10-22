@@ -46,17 +46,17 @@
                   <div class="col-md-12">
                     <div class="card bg-light">
                       <div class="card-body">
-                        <h5>Updates</h5>
-                        <p class="text-muted mb-3">Check for available updates. We will verify your network connection first. If no updates are available, you will see a clear message.</p>
+                        <h5><?= __t('Updates') ?></h5>
+                        <p class="text-muted mb-3"><?= __t('Check for updates') ?>. We will verify your network connection first. If no updates are available, you will see a clear message.</p>
 
                         <div id="update_status" class="mb-2"></div>
 
                         <div id="update_actions" class="mb-3">
                           <button type="button" id="btn_check_updates" class="btn btn-info">
-                            <i class="fa fa-sync"></i> Check for updates
+                            <i class="fa fa-sync"></i> <?= __t('Check for updates') ?>
                           </button>
                           <button type="button" id="btn_apply_updates" class="btn btn-success d-none">
-                            <i class="fa fa-download"></i> Update now
+                            <i class="fa fa-download"></i> <?= __t('Update now') ?>
                           </button>
                         </div>
 
@@ -108,58 +108,7 @@ $(document).ready(function(){
     });
   }
 
-  function checkUpdates(){
-    setStatus('<span class="text-info"><i class="fa fa-sync fa-spin"></i> Checking for updates…</span>');
-    $('#btn_apply_updates').addClass('d-none');
-    $('#update_details').addClass('d-none');
-    $.ajax({
-      url:'../jquery/updates.php',
-      type:'post',
-      dataType:'json',
-      data:{check:true},
-      success:function(res){
-        if(res.error){
-          if(res.error === 'no_network'){
-            setStatus('<span class="text-danger"><i class="fa fa-exclamation-triangle"></i> No network connection. Please check your internet.</span>');
-          }else if(res.error === 'not_git_repo'){
-            setStatus('<span class="text-warning"><i class="fa fa-info-circle"></i> Update check is not available for this installation.</span>');
-          }else if(res.error === 'git_unavailable'){
-            setStatus('<span class="text-warning"><i class="fa fa-info-circle"></i> Update tools are not available on this server.</span>');
-          }else if(res.error === 'shell_disabled'){
-            setStatus('<span class="text-warning"><i class="fa fa-info-circle"></i> Server shell execution is disabled. Cannot check updates.</span>');
-          }else if(res.error === 'not_logged_in'){
-            toastr.error('Session expired. Please login again.');
-            setTimeout(function(){ window.location.href = '<?= BASE_URL ?>login.php'; }, 1500);
-          }else{
-            setStatus('<span class="text-danger">'+(res.message||'Unknown error while checking updates.')+'</span>');
-          }
-          return;
-        }
-
-        // Success path
-        if(res.behind > 0){
-          setStatus('<span class="text-success"><i class="fa fa-check"></i> Updates are available.</span>');
-          renderCommits(res.commits || []);
-          $('#update_details').removeClass('d-none');
-          $('#btn_apply_updates').removeClass('d-none');
-        }else{
-          setStatus('<span class="text-muted"><i class="fa fa-minus-circle"></i> No updates available. You are up to date.</span>');
-        }
-      },
-      error:function(xhr){
-        console.log('AJAX Error:', xhr.responseText);
-        setStatus('<span class="text-danger">Network error. Please try again.</span>');
-      }
-    });
-  }
-
-  function applyUpdates(){
-    setStatus('<span class="text-info"><i class="fa fa-download"></i> Applying updates…</span>');
-    $.ajax({
-      url:'../jquery/updates.php',
-      type:'post',
-      dataType:'json',
-      data:{apply:true},
+  ,
       success:function(res){
         if(res.success){
           toastr.success('Updated successfully');
@@ -267,3 +216,6 @@ $(document).ready(function(){
 })
 
 </script>
+
+
+

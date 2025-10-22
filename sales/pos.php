@@ -37,8 +37,8 @@ input[type=number] {
     line-height: 1;
 }
 </style>
-<?php $title = "POS"; include(ROOT_PATH . '/inc/header.php'); ?>
-<?php $menu = 'Iibin'  ?>
+<?php $title = 'POS'; include(ROOT_PATH . '/inc/header.php'); ?>
+<?php $menu = 'Sale'  ?>
       
       <?php $smenu = 'POS'  ?>
   <body class='app '>
@@ -67,7 +67,7 @@ input[type=number] {
               <header class="page-title-bar">
               <div class="row">
                 <div class="col-md-6">
-                  <h1 class="page-title"> <a href="<?= BASE_URL ?>" class="btn"> <i class="fa fa-arrow-left"></i> </a> POS <small>Sale</small> </h1>
+                  <h1 class="page-title"> <a href="<?= BASE_URL ?>" class="btn"> <i class="fa fa-arrow-left"></i> </a> <?= __t('POS') ?> <small><?= __t('Sale') ?></small> </h1>
                 </div>
                 <!-- <div class="col-md-6 text-right">
                     <a href="<?= BASE_URL ?>sales/history" class="btn btn-success text-light"> <i class="fa fa-list"></i> Sales history </a>
@@ -93,7 +93,7 @@ input[type=number] {
                                 <div class="row" >
                                     <div class="form-group col-md-4 ">
                                     <select name="category" id="category" class='form-control' data-toggle='selectpicker'  data-live-search='true' >
-                                        <option value="">Nooca alaabta</option>
+                                        <option value=""><?= __t('Item category') ?></option>
                                         <?php 
 
                                           $stmt = "SELECT * FROM item_category ORDER BY category_name ASC";
@@ -111,10 +111,10 @@ input[type=number] {
                                     </select>
                                     </div>
                                     <div class="form-group col-md-4 ">
-                                    <input type="text" name="search_product" id="search_product"  data-kioskboard-type="keyboard" data-kioskboard-specialcharacters="false"  class="form-control virtual-keyboard" placeholder='Raadi alaab'>
+                                    <input type="text" name="search_product" id="search_product"  data-kioskboard-type="keyboard" data-kioskboard-specialcharacters="false"  class="form-control virtual-keyboard" placeholder='<?= __t('Search product') ?>'>
                                     </div>
                                     <div class="form-group col-md-4 ">
-                                    <input type="text" name="barcode_scanner" id="barcode_scanner" class="form-control" placeholder='Barcode Scanner' autocomplete="off">
+                                    <input type="text" name="barcode_scanner" id="barcode_scanner" class="form-control" placeholder='<?= __t('Barcode Scanner') ?>' autocomplete="off">
                                     </div>
                                     <div class="form-group-col-md-12" style="width:100%;height:400px; position: relative; overflow: hidden;overflow-y: scroll;">
                                     
@@ -198,10 +198,10 @@ input[type=number] {
                             <table class="table table-hover table-striped table-sm table-head-fixed " data-height='100' >
                                 <thead>
                                     <tr class='' >
-                                        <th  >Item</th>
-                                        <th>Unit price</th>
-                                        <th>Qty</th>
-                                        <th>Amount</th>
+                                        <th><?= __t('Item') ?></th>
+                                        <th><?= __t('Unit price') ?></th>
+                                        <th><?= __t('Qty') ?></th>
+                                        <th><?= __t('Amount') ?></th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -214,13 +214,13 @@ input[type=number] {
 
                           <table class="table" style='border-radius:0;'>
                               <tr class='bg-dark text-light' style='border-radius:0;'>
-                                <td colspan='3' style='border-radius:0;'> Total</td>
+                                <td colspan='3' style='border-radius:0;'> <?= __t('Total') ?></td>
                                 <td class="text-right" id='Total' style='font-size:larger; border-radius:0;' > 0.00$</td>
                               </tr>
                           </table>
                           <div class="btn-group" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-info"id='payment'  data-toggle="modal" data-target="#OrderModal" style='border-radius:0;'>Order now</button>
-                            <button type="button" class="btn btn-danger" id='resetOrder'  style='border-radius:0;'>Reset</button>
+                            <button type="button" class="btn btn-info"id='payment'  data-toggle="modal" data-target="#OrderModal" style='border-radius:0;'><?= __t('Order now') ?></button>
+                            <button type="button" class="btn btn-danger" id='resetOrder'  style='border-radius:0;'><?= __t('Reset') ?></button>
                           </div>
                          
                       </div>
@@ -240,7 +240,7 @@ input[type=number] {
 
                             <!-- .modal-header -->
                             <div class="modal-header">
-                              <h5 id="exampleModalDrawerRightLabel" class="modal-title"> <strong>Add customer</strong> </h5>
+                              <h5 id="exampleModalDrawerRightLabel" class="modal-title"> <strong><?= __t('Add customer') ?></strong> </h5>
                             </div><!-- /.modal-header -->
                             <!-- .modal-body -->
                             <div class="modal-body" >
@@ -248,43 +248,43 @@ input[type=number] {
                             <form class='row' method='post' id='frmCust'>
 
                               <div class='form-group col-md-6'>
-                                <label for=''> Customer name *</label>
+                                <label for=''> <?= __t('Customer name') ?> *</label>
                                 <input type='text' name='cname' id='cname' class='form-control rounded-0' required>
                               </div>
 
                               <div class='form-group col-md-6'>
-                                <label for=''> Phone number *</label>
+                                <label for=''> <?= __t('Phone number') ?> *</label>
                                 <input type='text' name='cphone' id='cphone' class='form-control  rounded-0' required>
                               </div>
 
                               <div class='form-group col-md-6'>
-                                <label for=''> Email Address</label>
+                                <label for=''> <?= __t('Email Address') ?></label>
                                 <input type='text' name='cemail' id='cemail' class='form-control rounded-0'>
                               </div>
 
                               <div class='form-group col-md-6'>
-                                <label for=''> Status *</label>
+                                <label for=''> <?= __t('Status') ?> *</label>
                                 <select name='status' id='status' class='form-control'>
-                                  <option value=''> Select status</option>
-                                  <option value='Active'> Active</option>
-                                  <option value='Disabled'> Disabled</option>
+                                  <option value=''> <?= __t('Select status') ?></option>
+                                  <option value='Active'> <?= __t('Active') ?></option>
+                                  <option value='Disabled'> <?= __t('Disabled') ?></option>
                                 </select>
                               </div>
 
                               <div class='form-group col-md-12'>
-                                <label for=''> Address</label>
+                                <label for=''> <?= __t('Address') ?></label>
                                 <textarea name='addr' id='addr' class='form-control rounded-0'></textarea>
                               </div>
 
                               <div class='form-group col-md-6'>
-                                <button type='submit' class='btn btn-info rounded-0'>Save customer</button>
+                                <button type='submit' class='btn btn-info rounded-0'><?= __t('Save customer') ?></button>
                               </div>
                             </form>
 
                             </div><!-- /.modal-body -->
                             <!-- .modal-footer -->
                             <div class="modal-footer">
-                              <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+                              <button type="button" class="btn btn-light" data-dismiss="modal"><?= __t('Close') ?></button>
                             </div><!-- /.modal-footer -->
                           </div><!-- /.modal-content -->
                         </div><!-- /.modal-dialog -->
@@ -327,9 +327,9 @@ input[type=number] {
                                   </select>
                                 </div>
                                 <div class="form-group">
-                                  <label for="payment_method">Payment Method</label>
+                                  <label for="payment_method"><?= __t('Payment Method') ?></label>
                                   <select class="form-control" id="payment_method" required>
-                                    <option value="">Select Payment Method</option>
+                                    <option value=""><?= __t('Select Payment Method') ?></option>
                                     <?php 
                                       $stmt = "SELECT * FROM account ORDER BY account_name ASC";
                                       $result = mysqli_query($con, $stmt);
@@ -343,7 +343,7 @@ input[type=number] {
                                   </select>
                                 </div>
                                 <div class="form-group mb-0">
-                                  <label for="order_notes">Order Notes</label>
+                                  <label for="order_notes"><?= __t('Order Notes') ?></label>
                                   <textarea class="form-control" id="order_notes" rows="4" placeholder="Any special notes..."></textarea>
                                 </div>
                               </div>
@@ -352,41 +352,41 @@ input[type=number] {
                           <div class="col-md-6">
                             <div class="card totals-card">
                               <div class="card-body">
-                                <h6 class="mb-3">Totals</h6>
+                                <h6 class="mb-3"><?= __t('Totals') ?></h6>
                                 <div class="form-group">
-                                  <label class="mb-1">Subtotal</label>
+                                  <label class="mb-1"><?= __t('Subtotal') ?></label>
                                   <div class="input-group">
                                     <div class="input-group-prepend"><span class="input-group-text">$</span></div>
                                     <input type="text" class="form-control" value="0.00" id="subtotal_readonly" readonly>
                                   </div>
-                                  <small class="text-muted">Calculated from items</small>
+                                  <small class="text-muted"><?= __t('Calculated from items') ?></small>
                                 </div>
                                 <div class="form-group">
-                                  <label for="discount_all" class="mb-1">Discount (all)</label>
+                                  <label for="discount_all" class="mb-1"><?= __t('Discount (all)') ?></label>
                                   <div class="input-group">
                                     <div class="input-group-prepend"><span class="input-group-text">$</span></div>
                                     <input type="number" class="form-control" id="discount_all" step="0.01" value="0">
                                   </div>
                                 </div>
                                 <div class="form-group">
-                                  <label class="mb-1">Grand Total</label>
+                                  <label class="mb-1"><?= __t('Grand Total') ?></label>
                                   <div class="input-group">
                                     <div class="input-group-prepend"><span class="input-group-text">$</span></div>
                                     <input type="text" class="form-control font-weight-bold" value="0.00" id="grandtotal_readonly" readonly>
                                   </div>
                                 </div>
                                 <div class="form-group">
-                                  <label for="amount_paid" class="mb-1">Amount Paid</label>
+                                  <label for="amount_paid" class="mb-1"><?= __t('Amount Paid') ?></label>
                                   <div class="input-group">
                                     <div class="input-group-prepend"><span class="input-group-text">$</span></div>
                                     <input type="number" class="form-control" id="amount_paid" step="0.01" required>
                                   </div>
                                 </div>
                                 <div class="mb-2 d-none" id="change_alert">
-                                  <span class="badge badge-warning p-2">Change: $<span id="change_amount">0.00</span></span>
+                                  <span class="badge badge-warning p-2"><?= __t('Change') ?>: $<span id="change_amount">0.00</span></span>
                                 </div>
                                 <div class="d-none" id="balance_alert">
-                                  <span class="badge badge-secondary p-2">Balance Due: $<span id="balance_amount">0.00</span></span>
+                                  <span class="badge badge-secondary p-2"><?= __t('Balance Due') ?>: $<span id="balance_amount">0.00</span></span>
                                 </div>
                               </div>
                             </div>
@@ -395,8 +395,8 @@ input[type=number] {
                       </form>
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                      <button type="button" class="btn btn-success" id="complete_order">Complete Order</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal"><?= __t('Cancel') ?></button>
+                      <button type="button" class="btn btn-success" id="complete_order"><?= __t('Complete Order') ?></button>
                     </div>
                   </div>
                 </div>
@@ -751,9 +751,10 @@ $(document).ready(function(){
     $.ajax({
       url: '../jquery/sales/pos.php',
       type: 'POST',
+      dataType: 'json',
       data: {complete_order: JSON.stringify(orderData)},
-      success: function(response){
-        if(response === 'success'){
+      success: function(res){
+        if(res && res.success === true){
           toastr.success("Order completed successfully!");
           $('#OrderModal').modal('hide');
           cart = [];
@@ -761,11 +762,15 @@ $(document).ready(function(){
           updateCart();
           $('#orderForm')[0].reset();
           $('#change_alert').hide();
+        } else if(res && res.error){
+          toastr.error("Error completing order: " + (res.message || res.error));
         } else {
-          toastr.error("Error completing order: " + response);
+          toastr.error("Unexpected response while completing order.");
+          console.log('Complete order response:', res);
         }
       },
-      error: function(){
+      error: function(xhr){
+        console.log('AJAX error:', xhr.responseText);
         toastr.error("Error processing order!");
       }
     });

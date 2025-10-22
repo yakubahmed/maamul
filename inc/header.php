@@ -3,11 +3,12 @@ ob_start();
 include( ROOT_PATH . '/inc/session_config.php' );
 session_start(); 
 include( ROOT_PATH . '/inc/config.php' ); 
+include( ROOT_PATH . '/inc/lang.php' );
 ?>
 <?php if(!isset($_SESSION['isLogedIn'])){ header('location: login' ); } ?>
 <?php include( ROOT_PATH . '/inc/access_control.php' ); ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?= htmlspecialchars($_SESSION['lang'] ?? 'so') ?>">
 <?php $isactive = "" ?>
 <?php $isactive2 = "" ?>
 <head>
@@ -15,7 +16,7 @@ include( ROOT_PATH . '/inc/config.php' );
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><!-- End Required meta tags -->
     <!-- Begin SEO tag -->
-    <title> <?= $title ?> | Maamul Software </title>
+    <title> <?= __t($title ?? '') ?> | Maamul Software </title>
     <meta property="og:title" content="Dashboard">
     <meta name="author" content="Yakub Ahmed">
     <meta property="og:locale" content="en_US">

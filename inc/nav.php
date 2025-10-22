@@ -35,8 +35,10 @@
 
 
                 <div class="nav-item ">
-                  <select name="" id="" class="form-control bg-info text-light " style='border:0;'>
-                    <option value="English">Soomaaliya</option>
+                  <?php $currLang = $_SESSION['lang'] ?? 'so'; ?>
+                  <select id="langSwitcher" class="form-control bg-info text-light" style="border:0;" onchange="window.location='<?= BASE_URL ?>set-language.php?lang='+this.value;">
+                    <option value="so" <?= ($currLang==='so'?'selected':'') ?>>Soomaali</option>
+                    <option value="en" <?= ($currLang==='en'?'selected':'') ?>>English</option>
                   </select>
                 </div>
 
@@ -56,8 +58,11 @@
                 <div class="dropdown-menu">
                   <div class="dropdown-arrow d-lg-none" x-arrow=""></div>
                   <div class="dropdown-arrow ml-3 d-none d-lg-block"></div>
-                  <h6 class="dropdown-header d-none d-md-block d-lg-none"> <?= $_SESSION['fname'] ?> </h6><a class="dropdown-item" href="<?= BASE_URL ?>user-profile"><span class="dropdown-icon oi oi-person"></span> Profile</a> <a class="dropdown-item" href="<?= BASE_URL ?>logout"><span class="dropdown-icon oi oi-account-logout"></span> Logout</a>
-                  <div class="dropdown-divider"></div><a class="dropdown-item" href="#">Help Center</a>  
+                  <h6 class="dropdown-header d-none d-md-block d-lg-none"> <?= $_SESSION['fname'] ?> </h6>
+                  <a class="dropdown-item" href="<?= BASE_URL ?>user-profile"><span class="dropdown-icon oi oi-person"></span> <?= __t('Profile') ?></a>
+                  <a class="dropdown-item" href="<?= BASE_URL ?>logout"><span class="dropdown-icon oi oi-account-logout"></span> <?= __t('Logout') ?></a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#"><?= __t('Help Center') ?></a>  
                 </div><!-- /.dropdown-menu -->
               </div><!-- /.btn-account -->
             </div><!-- /.top-bar-item -->
