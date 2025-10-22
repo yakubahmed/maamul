@@ -214,7 +214,7 @@ $(document).ready(function(){
             toastr.error('Session expired. Please login again.');
             setTimeout(function(){ window.location.href = '<?= BASE_URL ?>login.php'; }, 1500);
           }else{
-            setStatus('<span class="text-danger">'+(res.message||'Unable to check for updates.')</span>');
+            setStatus('<span class="text-danger">'+(res.message||'Unable to check for updates.')+'</span>');
           }
           return;
         }
