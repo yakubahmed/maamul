@@ -5,9 +5,9 @@
 </style>
 
 <?php $title = "Add Item"; include(ROOT_PATH . '/inc/header.php'); ?>
-      <?php $menu = 'Alaab'  ?>
+      <?php $menu = 'Items'  ?>
       
-      <?php $smenu = 'Diiwangeli alaab'  ?>
+      <?php $smenu = 'Add item'  ?>
   <body>
     <!-- .app -->
     <div class="app">

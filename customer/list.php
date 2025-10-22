@@ -6,9 +6,9 @@
 
 <?php $title = 'Customer list';  include(ROOT_PATH . '/inc/header.php'); ?>
 
-      <?php $menu = 'People'  ?>
+      <?php $menu = 'Customers'  ?>
       
-      <?php $smenu = 'Macaamiil'  ?>
+      <?php $smenu = 'Customer list'  ?>
   <body>
     <!-- .app -->
     <div class="app">

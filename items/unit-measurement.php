@@ -5,7 +5,7 @@
 </style>
 
 <?php $title = "Unit measurement"; include(ROOT_PATH . '/inc/header.php'); ?>
-      <?php $menu = 'Alaab'  ?>
+      <?php $menu = 'Items'  ?>
       
       <?php $smenu = 'Unit measurement '  ?>
   <body>

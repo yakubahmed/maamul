@@ -15,9 +15,9 @@
       <?php include(ROOT_PATH .'/inc/nav.php'); ?>
       <!-- .app-aside -->
 
-      <?php $menu = 'People'  ?>
+      <?php $menu = 'Customers'  ?>
       
-      <?php $smenu = 'Macaamiil'  ?>
+      <?php $smenu = 'Add customer'  ?>
       
       
       
