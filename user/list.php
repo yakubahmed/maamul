@@ -296,23 +296,55 @@ $(document).ready(function(){
           type:'post', 
           data: $('#frmEditUser').serialize(),
           success: function(res){
-            if(res == 'found_email'){
-              toastr.error("This email account is allready with another customer, try another one")
-              $('#email1').addClass('is-invalid')
-            }else if (res == "phone_found"){
-              toastr.error("This phone number is allready registered with another customer, try another one ")
-              $('#phone1').addClass('is-invalid')
-            }else if (res == 'success'){
-              toastr.success("User Updated successfully")
-              $('#frmEditUser')[0].reset();
-              $('#editCustModal').modal('hide');
-              $('#cphone1').removeClass('is-invalid')
-              $('#cemail1').removeClass('is-invalid')
-              location.reload();
+            // Handle JSON or legacy string responses
+            try {
+              if (typeof res === 'string' && res.trim().startsWith('{')) { res = JSON.parse(res); }
+            } catch(e) {}
 
-            }else{
+            if (typeof res === 'object'){
+              if(res.error === 'found_email'){
+                toastr.error("This email is already registered with another user.")
+                $('#email1').addClass('is-invalid')
+              }else if (res.error === 'phone_found'){
+                toastr.error("This phone number is already registered with another user.")
+                $('#phone1').addClass('is-invalid')
+              }else if (res.error === 'not_logged_in'){
+                toastr.error("Session expired. Please login again.")
+                setTimeout(function(){ window.location.href = '<?= BASE_URL ?>login.php'; }, 2000);
+              }else if (res.success === true){
+                toastr.success("User updated successfully")
+                $('#frmEditUser')[0].reset();
+                $('#editUserModal').modal('hide');
+                $('#phone1').removeClass('is-invalid')
+                $('#email1').removeClass('is-invalid')
+                location.reload();
+              }else{
+                toastr.error("Something went wrong. Please try again.")
                 console.log(res)
+              }
+            }else{
+              if(res == 'found_email'){
+                toastr.error("This email is already registered with another user.")
+                $('#email1').addClass('is-invalid')
+              }else if (res == 'phone_found'){
+                toastr.error("This phone number is already registered with another user.")
+                $('#phone1').addClass('is-invalid')
+              }else if (res == 'success'){
+                toastr.success("User updated successfully")
+                $('#frmEditUser')[0].reset();
+                $('#editUserModal').modal('hide');
+                $('#phone1').removeClass('is-invalid')
+                $('#email1').removeClass('is-invalid')
+                location.reload();
+              }else{
+                console.log(res)
+              }
             }
+          },
+          error: function(xhr, status, error){
+            console.log('AJAX Error:', error);
+            console.log('Response:', xhr.responseText);
+            toastr.error("Network error. Please try again.");
           }
         })
       });
@@ -326,9 +358,14 @@ $(document).ready(function(){
           data: {edit_user:id},
           success: function(res){ 
             $('.userDetails').html(res)
-          } 
+          },
+          error: function(xhr, status, error){
+            console.log('AJAX Error:', error);
+            console.log('Response:', xhr.responseText);
+            toastr.error('Failed to load user details.');
+          }
         })
-    })
+      })
 
 
 

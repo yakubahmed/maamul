@@ -6,12 +6,12 @@ session_start();
 
 include('../inc/config.php');
 
-// Set proper headers for AJAX requests
-header('Content-Type: application/json');
+// Note: Set Content-Type per branch to match response format
 
 date_default_timezone_set('Africa/Nairobi');
 
 if(isset($_POST['accname'])){
+    header('Content-Type: application/json');
     // Check if user is logged in
     if(!isset($_SESSION['uid']) || !isset($_SESSION['isLogedIn'])){
         // Debug: Log session state
@@ -58,8 +58,9 @@ if(isset($_POST['accname'])){
 
 }
 
-//Delete customer
+//Delete account
 if(isset($_POST['del_acc'])){
+    header('Content-Type: application/json');
     // Check if user is logged in
     if(!isset($_SESSION['uid']) || !isset($_SESSION['isLogedIn'])){
         echo json_encode(array('error' => 'not_logged_in'));
@@ -78,7 +79,8 @@ if(isset($_POST['del_acc'])){
 
 
 if(isset($_POST['editSingleAcc'])){
-    $id = $_POST['editSingleAcc'];
+    header('Content-Type: text/html; charset=UTF-8');
+    $id = (int)$_POST['editSingleAcc'];
     $stmt = "SELECT * FROM account WHERE account_id = $id";
     $result = mysqli_query($con, $stmt); 
     while($row = mysqli_fetch_assoc($result)){
@@ -119,13 +121,14 @@ if(isset($_POST['editSingleAcc'])){
 }
 
 if(isset($_POST['account_id'])){
+    header('Content-Type: application/json');
     // Check if user is logged in
     if(!isset($_SESSION['uid']) || !isset($_SESSION['isLogedIn'])){
         echo json_encode(array('error' => 'not_logged_in'));
         exit;
     }
 
-    $id = $_POST['account_id'];
+    $id = (int)$_POST['account_id'];
     $name = mysqli_real_escape_string($con, $_POST['accname1']);
     $num  = mysqli_real_escape_string($con, $_POST['accnum1'] ) ;
     $desc  = mysqli_real_escape_string($con, $_POST['accdes1'] ) ;

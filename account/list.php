@@ -407,6 +407,11 @@ $(document).ready(function(){
                 $('.editAccPlace').html(data)
                 //$('.overlay').addClass('d-none');
 
+            },
+            error: function(xhr, status, error){
+              console.log('AJAX Error:', error);
+              console.log('Response:', xhr.responseText);
+              toastr.error('Failed to load account details.');
             }
         });
       })

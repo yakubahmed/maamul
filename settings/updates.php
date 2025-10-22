@@ -44,122 +44,30 @@
                 <div class="section-block">
 
                   <div class="col-md-12">
+                    <div class="card bg-light">
+                      <div class="card-body">
+                        <h5>Updates</h5>
+                        <p class="text-muted mb-3">Check for available updates. We will verify your network connection first. If no updates are available, you will see a clear message.</p>
 
-                    <div class="card bg-light ">
-                      
-                      <div class="card-body ">
-     
-     
-          
+                        <div id="update_status" class="mb-2"></div>
+
+                        <div id="update_actions" class="mb-3">
+                          <button type="button" id="btn_check_updates" class="btn btn-info">
+                            <i class="fa fa-sync"></i> Check for updates
+                          </button>
+                          <button type="button" id="btn_apply_updates" class="btn btn-success d-none">
+                            <i class="fa fa-download"></i> Update now
+                          </button>
+                        </div>
+
+                        <!-- Details hidden for a simpler, user‑friendly view -->
                       </div>
                     </div>
                   </div>
 
                 </div><!-- /.section-block -->
 
-                  <!-- Normal modal -->
-                      <div class="modal fade" id="addAdjModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterLabel" aria-hidden="true">
-                        <!-- .modal-dialog -->
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                          <!-- .modal-content -->
-                          <div class="modal-content">
-                            <div class="overlay d-none">
-                              <i class="fas fa-2x fa-sync fa-spin text-light"></i>
-                            </div>
-                            <!-- .modal-header -->
-                            <div class="modal-header">
-                              <h5 id="exampleModalCenterLabel" class="modal-title"> Add Adjustment </h5>
-                            </div><!-- /.modal-header -->
-                            <form  method="post" id='frmAddAdj'>
-                              <!-- .modal-body -->
-                              <div class="modal-body">
-                                <div class="row">
-                                  <div class="form-group col-md-12">
-                                    <label for="">Item *</label>
-                                    <select name="item" id="bss3" class="form-control customer" required data-toggle='selectpicker' required data-live-search='true' >
-                                      <option data-tokens='' value=''>Select item  </option>
-                                    
-                                      <?php
-                                        $stmt = "SELECT * FROM item ";
-                                        $result = mysqli_query($con, $stmt);
-                                        while($row = mysqli_fetch_assoc($result)){
-                                          $id = $row['item_id'];
-                                          $name = $row['item_name'];
-                                          echo "
-                                            <option data-tokens='$id' value='$id'>$name  </option>
-  
-                                          ";
-                                        }
-                                      ?>
-                                    </select>
-                                  </div>
-                                  <div class="col-md-6">
-                                    <label for="">Current stock</label>
-                                    <p id='curr_stock'>-</p>
-                                  </div>
-                                  <div class="col-md-6">
-                                    <label for="">Quantity *</label>
-                                    <input type="number" min='1' name="qty" id="qty" required class="form-control">
-                                  </div>
-
-                                  <div class="form-group col-md-12">
-                                    <label for="">Adjustment type *</label>
-                                    <select name="adjtype" id="adjtype" class="form-control" required>
-                                        <option value="">Select Adjustment type</option>
-                                        <option value="Add">Add</option>
-                                        <option value="Subtract">Subtract</option>
-                                    </select>
-                                  </div>
-
-                                  <div class="form-group col-md-12">
-                                    <label for="">Date *</label>
-                                    <input type="date" name="date" id="date" class="form-control" required>
-                                  </div>
-
-
-                                </div>
-                              </div><!-- /.modal-body -->
-                              <!-- .modal-footer -->
-                              <div class="modal-footer">
-                                <button type="submit" class="btn btn-info">Save adjustment</button>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> 
-                              </div><!-- /.modal-footer -->
-                            </form>
-                          </div><!-- /.modal-content -->
-                        </div><!-- /.modal-dialog -->
-                      </div><!-- /.modal -->
-
-                  <!-- Edit Modal -->
-                      <div class="modal fade" id="editAdjModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterLabel" aria-hidden="true">
-                        <!-- .modal-dialog -->
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                          <!-- .modal-content -->
-                          <div class="modal-content">
-                            <div class="overlay d-none">
-                              <i class="fas fa-2x fa-sync fa-spin text-light"></i>
-                            </div>
-                            <!-- .modal-header -->
-                            <div class="modal-header">
-                              <h5 id="exampleModalCenterLabel" class="modal-title"> Add Adjustment </h5>
-                            </div><!-- /.modal-header -->
-                            <form  method="post" id='' >
-                              <!-- .modal-body -->
-                              <div class="modal-body">
-                                <div class="row" id='frmEditAdj'>
-                           
-
-
-                                </div>
-                              </div><!-- /.modal-body -->
-                              <!-- .modal-footer -->
-                              <div class="modal-footer">
-                                <button type="submit" class="btn btn-info">Update adjustment</button>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> 
-                              </div><!-- /.modal-footer -->
-                            </form>
-                          </div><!-- /.modal-content -->
-                        </div><!-- /.modal-dialog -->
-                      </div><!-- /.modal -->
+                  
              
  
 
@@ -187,8 +95,175 @@ $(document).ready(function(){
         timer: 3000
   });
 
+  function setStatus(html){
+    $('#update_status').html(html);
+  }
 
+  function renderCommits(commits){
+    var $list = $('#commit_list');
+    $list.empty();
+    commits.forEach(function(c){
+      var item = '<li><code>'+c.hash+'</code> - '+$('<div>').text(c.subject).html()+' <span class="text-muted">('+c.when+')</span></li>';
+      $list.append(item);
+    });
+  }
 
+  function checkUpdates(){
+    setStatus('<span class="text-info"><i class="fa fa-sync fa-spin"></i> Checking for updates…</span>');
+    $('#btn_apply_updates').addClass('d-none');
+    $('#update_details').addClass('d-none');
+    $.ajax({
+      url:'../jquery/updates.php',
+      type:'post',
+      dataType:'json',
+      data:{check:true},
+      success:function(res){
+        if(res.error){
+          if(res.error === 'no_network'){
+            setStatus('<span class="text-danger"><i class="fa fa-exclamation-triangle"></i> No network connection. Please check your internet.</span>');
+          }else if(res.error === 'not_git_repo'){
+            setStatus('<span class="text-warning"><i class="fa fa-info-circle"></i> Update check is not available for this installation.</span>');
+          }else if(res.error === 'git_unavailable'){
+            setStatus('<span class="text-warning"><i class="fa fa-info-circle"></i> Update tools are not available on this server.</span>');
+          }else if(res.error === 'shell_disabled'){
+            setStatus('<span class="text-warning"><i class="fa fa-info-circle"></i> Server shell execution is disabled. Cannot check updates.</span>');
+          }else if(res.error === 'not_logged_in'){
+            toastr.error('Session expired. Please login again.');
+            setTimeout(function(){ window.location.href = '<?= BASE_URL ?>login.php'; }, 1500);
+          }else{
+            setStatus('<span class="text-danger">'+(res.message||'Unknown error while checking updates.')+'</span>');
+          }
+          return;
+        }
+
+        // Success path
+        if(res.behind > 0){
+          setStatus('<span class="text-success"><i class="fa fa-check"></i> Updates are available.</span>');
+          renderCommits(res.commits || []);
+          $('#update_details').removeClass('d-none');
+          $('#btn_apply_updates').removeClass('d-none');
+        }else{
+          setStatus('<span class="text-muted"><i class="fa fa-minus-circle"></i> No updates available. You are up to date.</span>');
+        }
+      },
+      error:function(xhr){
+        console.log('AJAX Error:', xhr.responseText);
+        setStatus('<span class="text-danger">Network error. Please try again.</span>');
+      }
+    });
+  }
+
+  function applyUpdates(){
+    setStatus('<span class="text-info"><i class="fa fa-download"></i> Applying updates…</span>');
+    $.ajax({
+      url:'../jquery/updates.php',
+      type:'post',
+      dataType:'json',
+      data:{apply:true},
+      success:function(res){
+        if(res.success){
+          toastr.success('Updated successfully');
+          checkUpdates();
+        }else if(res.error === 'no_network'){
+          setStatus('<span class="text-danger"><i class="fa fa-exclamation-triangle"></i> No network connection. Please check your internet.</span>');
+        }else if(res.error === 'shell_disabled'){
+          setStatus('<span class="text-warning"><i class="fa fa-info-circle"></i> Server shell execution is disabled. Cannot apply updates.</span>');
+        }else if(res.error === 'not_git_repo'){
+          setStatus('<span class="text-warning"><i class="fa fa-info-circle"></i> Updates cannot be applied for this installation.</span>');
+        }else if(res.error === 'not_logged_in'){
+          toastr.error('Session expired. Please login again.');
+          setTimeout(function(){ window.location.href = '<?= BASE_URL ?>login.php'; }, 1500);
+        }else{
+          setStatus('<span class="text-danger">'+(res.message||'Failed to apply updates.')+'</span>');
+        }
+      },
+      error:function(xhr){
+        console.log('AJAX Error:', xhr.responseText);
+        setStatus('<span class="text-danger">Network error. Please try again.</span>');
+      }
+    });
+  }
+
+  $('#btn_check_updates').on('click', function(){
+    checkUpdatesFriendly();
+  });
+
+  $('#btn_apply_updates').on('click', function(){
+    applyUpdatesFriendly();
+  });
+
+  function checkUpdatesFriendly(){
+    setStatus('<span class="text-info"><i class="fa fa-sync fa-spin"></i> Checking for updates...</span>');
+    $('#btn_apply_updates').addClass('d-none');
+    $.ajax({
+      url:'../jquery/updates.php',
+      type:'post',
+      dataType:'json',
+      data:{check:true},
+      success:function(res){
+        if(res && res.error){
+          if(res.error === 'no_network'){
+            setStatus('<span class="text-danger"><i class="fa fa-exclamation-triangle"></i> No internet connection. Please try again.</span>');
+          }else if(res.error === 'not_git_repo'){
+            setStatus('<span class="text-warning"><i class="fa fa-info-circle"></i> Update checks are not available for this installation.</span>');
+          }else if(res.error === 'git_unavailable'){
+            setStatus('<span class="text-warning"><i class="fa fa-info-circle"></i> Update tools are not available on this server.</span>');
+          }else if(res.error === 'shell_disabled'){
+            setStatus('<span class="text-warning"><i class="fa fa-info-circle"></i> Server restrictions prevent checking for updates.</span>');
+          }else if(res.error === 'not_logged_in'){
+            toastr.error('Session expired. Please login again.');
+            setTimeout(function(){ window.location.href = '<?= BASE_URL ?>login.php'; }, 1500);
+          }else{
+            setStatus('<span class="text-danger">'+(res.message||'Unable to check for updates.')</span>');
+          }
+          return;
+        }
+        if(res && res.behind > 0){
+          setStatus('<span class="text-success"><i class="fa fa-check"></i> An update is available. Click "Update now" to install.</span>');
+          $('#btn_apply_updates').removeClass('d-none');
+        }else{
+          setStatus('<span class="text-muted"><i class="fa fa-minus-circle"></i> No updates available. You are up to date.</span>');
+        }
+      },
+      error:function(xhr){
+        console.log('AJAX Error:', xhr.responseText);
+        setStatus('<span class="text-danger">Network error. Please try again.</span>');
+      }
+    });
+  }
+
+  function applyUpdatesFriendly(){
+    setStatus('<span class="text-info"><i class="fa fa-download"></i> Installing updates...</span>');
+    $.ajax({
+      url:'../jquery/updates.php',
+      type:'post',
+      dataType:'json',
+      data:{apply:true},
+      success:function(res){
+        if(res && res.success){
+          toastr.success('Updated successfully');
+          checkUpdatesFriendly();
+        }else if(res && res.error === 'no_network'){
+          setStatus('<span class="text-danger"><i class="fa fa-exclamation-triangle"></i> No internet connection. Please try again.</span>');
+        }else if(res && res.error === 'shell_disabled'){
+          setStatus('<span class="text-warning"><i class="fa fa-info-circle"></i> Server restrictions prevent applying updates.</span>');
+        }else if(res && res.error === 'not_git_repo'){
+          setStatus('<span class="text-warning"><i class="fa fa-info-circle"></i> Updates cannot be applied for this installation.</span>');
+        }else if(res && res.error === 'not_logged_in'){
+          toastr.error('Session expired. Please login again.');
+          setTimeout(function(){ window.location.href = '<?= BASE_URL ?>login.php'; }, 1500);
+        }else{
+          setStatus('<span class="text-danger">'+((res && res.message) || 'Failed to apply updates.')+'</span>');
+        }
+      },
+      error:function(xhr){
+        console.log('AJAX Error:', xhr.responseText);
+        setStatus('<span class="text-danger">Network error. Please try again.</span>');
+      }
+    });
+  }
+
+  // Only check when the button is clicked
 })
 
 </script>

@@ -133,7 +133,7 @@
 
                             <!-- .modal-header -->
                             <div class="modal-header">
-                              <h5 id="exampleModalDrawerRightLabel" class="modal-title"> <strong>Edit Account</strong> </h5>
+                              <h5 id="exampleModalDrawerRightLabel" class="modal-title"> <strong>Edit Expense</strong> </h5>
                             </div><!-- /.modal-header -->
                             <!-- .modal-body -->
                             <div class="modal-body" >
@@ -268,6 +268,11 @@ $(document).ready(function(){
                 $('.editExpPlace').html(data)
                 //$('.overlay').addClass('d-none');
 
+            },
+            error: function(xhr, status, error){
+              console.log('AJAX Error:', error);
+              console.log('Response:', xhr.responseText);
+              toastr.error("Failed to load expense details.");
             }
         });
       })

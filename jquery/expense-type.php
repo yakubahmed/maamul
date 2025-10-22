@@ -15,12 +15,12 @@ if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > 
 
 include('../inc/config.php');
 
-// Set proper headers for AJAX requests
-header('Content-Type: application/json');
+// Note: Set Content-Type per branch to match response format
 
 date_default_timezone_set('Africa/Nairobi');
 
 if(isset($_POST['etname'])){
+    header('Content-Type: application/json');
     $name = mysqli_real_escape_string($con, $_POST['etname']);
     $desc = mysqli_real_escape_string($con, $_POST['desc']);
 
@@ -61,6 +61,7 @@ if(isset($_POST['etname'])){
 }
 
 if(isset($_POST['all_unit'])){
+    header('Content-Type: text/html; charset=UTF-8');
     $i = 0;
     $stmt = "SELECT * FROM unit ORDER BY unit_id DESC";
     $result = mysqli_query($con, $stmt);
@@ -92,6 +93,7 @@ if(isset($_POST['all_unit'])){
 
 
 if(isset($_POST['del_etype'])){
+    header('Content-Type: application/json');
     // Check if user is logged in
     if(!isset($_SESSION['uid']) || !isset($_SESSION['isLogedIn'])){
         echo json_encode(array('error' => 'not_logged_in'));
@@ -110,6 +112,7 @@ if(isset($_POST['del_etype'])){
 }
 
 if(isset($_POST['edit_etype'])){
+    header('Content-Type: text/html; charset=UTF-8');
     $id = $_POST['edit_etype'];
 
     $stmt = "SELECT * FROM expense_type WHERE expense_type_id = $id";
@@ -132,7 +135,7 @@ if(isset($_POST['edit_etype'])){
       </div>
 
       <div class='form-group col-md-12'>
-        <button type='submit' class='btn btn-success'> <i class='fa fa-edit'></i> Update epense type</button>
+        <button type='submit' class='btn btn-success'> <i class='fa fa-edit'></i> Update expense type</button>
       </div>
         ";
     }
@@ -140,6 +143,7 @@ if(isset($_POST['edit_etype'])){
 
 
 if(isset($_POST['upd_role'])){
+    header('Content-Type: application/json');
     // Check if user is logged in
     if(!isset($_SESSION['uid']) || !isset($_SESSION['isLogedIn'])){
         echo json_encode(array('error' => 'not_logged_in'));
@@ -160,7 +164,7 @@ if(isset($_POST['upd_role'])){
         $stmt = "SELECT * FROM expense_type WHERE name = '$uname'";
         $result = mysqli_query($con, $stmt);
         if(mysqli_num_rows($result) > 0){
-            echo "found_etype";
+            echo json_encode(array('error' => 'found_etype'));
         }else{
         
           
@@ -168,7 +172,9 @@ if(isset($_POST['upd_role'])){
             $result = mysqli_query($con, $stmt);
 
             if($result){
-                echo 'success';
+                echo json_encode(array('success' => true));
+            }else{
+                echo json_encode(array('error' => 'update_error', 'message' => mysqli_error($con)));
             }
             
         }
@@ -176,7 +182,9 @@ if(isset($_POST['upd_role'])){
             $stmt = "UPDATE expense_type SET name = '$uname', description = '$sname' WHERE expense_type_id = $id";
         $result = mysqli_query($con, $stmt);
         if($result){
-            echo 'success';
+            echo json_encode(array('success' => true));
+        }else{
+            echo json_encode(array('error' => 'update_error', 'message' => mysqli_error($con)));
         }
     }
 

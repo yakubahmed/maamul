@@ -6,12 +6,12 @@ session_start();
 
 include('../inc/config.php');
 
-// Set proper headers for AJAX requests
-header('Content-Type: application/json');
+// Note: Set Content-Type per branch to match response format
 
 date_default_timezone_set('Africa/Nairobi');
 
 if(isset($_POST['role'])){
+    header('Content-Type: application/json');
     // Check if user is logged in
     if(!isset($_SESSION['uid']) || !isset($_SESSION['isLogedIn'])){
         // Debug: Log session state
@@ -58,6 +58,7 @@ if(isset($_POST['role'])){
 }
 
 if(isset($_POST['delete_user'])){
+    header('Content-Type: application/json');
     // Check if user is logged in
     if(!isset($_SESSION['uid']) || !isset($_SESSION['isLogedIn'])){
         echo json_encode(array('error' => 'not_logged_in'));
@@ -75,7 +76,8 @@ if(isset($_POST['delete_user'])){
 }
 
 if(isset($_POST['edit_user'])){
-    $uid = $_POST['edit_user'];
+    header('Content-Type: text/html; charset=UTF-8');
+    $uid = (int)$_POST['edit_user'];
     $stmt = "SELECT * FROM users WHERE userid = $uid";
     $result = mysqli_query($con, $stmt);
     while($row = mysqli_fetch_assoc($result)){
@@ -98,8 +100,6 @@ if(isset($_POST['edit_user'])){
         }
 
         echo "
-        <form class='row' method='post' id='frmAddUser'>
-
         <div class='form-group col-md-6'>
           <label for=''> Role *</label>
           <input type='hidden' name='user_id' id='user_id' value='$uid'>
@@ -164,19 +164,19 @@ if(isset($_POST['edit_user'])){
         <div class='form-group col-md-12 text-center'>
           <button type='submit' class='btn btn-success '>Update user</button>
         </div>
-      </form>
         ";
     }
 }
 
 if(isset($_POST['user_id'])){
+    header('Content-Type: application/json');
     // Check if user is logged in
     if(!isset($_SESSION['uid']) || !isset($_SESSION['isLogedIn'])){
         echo json_encode(array('error' => 'not_logged_in'));
         exit;
     }
     
-    $id = $_POST['user_id'];
+    $id = (int)$_POST['user_id'];
     $fname = mysqli_real_escape_string($con, $_POST['fname1']);
     $role = mysqli_real_escape_string($con, $_POST['role1']);
     $email = mysqli_real_escape_string($con, $_POST['email1']);

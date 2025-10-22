@@ -10,4 +10,4 @@ RewriteRule ^([^/]+)/$http://%{HTTP_HOST}/$1 [R=301,L]
 RewriteRule ^([^/.]+)$ $1.php [L]
 
 
-ErrorDocument 404 http://localhost/maamul-v2/404
+ErrorDocument 404 http://localhost/ramaas/404

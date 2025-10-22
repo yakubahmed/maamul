@@ -89,8 +89,8 @@
     <![endif]-->
     <!-- .auth -->
     <main class="auth" style='' >
-      <header id="auth-header" class="auth-header" style='padding:30px;'>
-        <img src="assets/images/logo/logo.png" height='90' alt="" class='' >
+      <header id="auth-header" class="auth-header" style='padding:40px; height: 250px;'>
+        <img src="assets/images/logo/logo.png" height='100' alt="" class='' >
         <span style='font-weight:bold; font-size:20px;'></span>
       </header><!-- form -->
       <?php //if(isset($_SESSION['auth'])): ?>

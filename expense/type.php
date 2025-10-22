@@ -294,6 +294,11 @@ $(document).ready(function(){
             $('#frmEditRole').html(data)
             $('#frmEditRole').removeClass('d-none')
             $('#frmAddRole').addClass('d-none')
+          },
+          error: function(xhr, status, error){
+            console.log('AJAX Error:', error);
+            console.log('Response:', xhr.responseText);
+            toastr.error('Failed to load expense type details.');
           }
                   
       })
@@ -311,12 +316,12 @@ $(document).ready(function(){
               $('#frmEditRole')[0].reset();
               $('#frmEditRole').addClass('d-none')
               $('#frmAddRole').removeClass('d-none')
-              $('#rname').removeClass('is-invalid')
+              $('#rname1').removeClass('is-invalid')
               toastr.success("Updated Successfully")
                 location.reload()
             }else if(data.error === "found_etype"){
               toastr.error("The expense type name that you entered is allready registered please another again")
-              $('#rname').addClass('is-invalid')
+              $('#rname1').addClass('is-invalid')
             }else if(data.error === 'not_logged_in'){
               toastr.error("Session expired. Please login again.")
               setTimeout(function(){

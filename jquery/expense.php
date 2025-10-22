@@ -6,12 +6,12 @@ session_start();
 
 include('../inc/config.php');
 
-// Set proper headers for AJAX requests
-header('Content-Type: application/json');
+// Note: We set Content-Type per response branch below to match output
 
 date_default_timezone_set('Africa/Nairobi');
 
 if(isset($_POST['etype'])){
+    header('Content-Type: application/json');
     // Check if user is logged in
     if(!isset($_SESSION['uid']) || !isset($_SESSION['isLogedIn'])){
         // Debug: Log session state
@@ -48,6 +48,7 @@ if(isset($_POST['etype'])){
 }
 
 if(isset($_POST['del_exp'])){
+    header('Content-Type: application/json');
     // Check if user is logged in
     if(!isset($_SESSION['uid']) || !isset($_SESSION['isLogedIn'])){
         echo json_encode(array('error' => 'not_logged_in'));
@@ -66,15 +67,16 @@ if(isset($_POST['del_exp'])){
 }
 
 if(isset($_POST['editSingleExp'])){
-    $id = $_POST['editSingleExp'];
-    $stmt = "SELECT * FROM expense WHERE expense_id = $id";
+    header('Content-Type: text/html; charset=UTF-8');
+    $expense_id = (int)$_POST['editSingleExp'];
+    $stmt = "SELECT * FROM expense WHERE expense_id = $expense_id";
     $result = mysqli_query($con,$stmt);
     while($row = mysqli_fetch_assoc($result)){
-        $name = $row['expense_name'];
-        $type = $row['expense_type'];
+        $exp_name = $row['expense_name'];
+        $type_id = (int)$row['expense_type'];
         $desc = $row['description'];
         $amount = $row['amount'];
-        $acc = $row['account'];
+        $acc_id = (int)$row['account'];
         $date  = date('Y-m-d', strtotime($row['reg_date']));
 
         echo "
@@ -82,23 +84,23 @@ if(isset($_POST['editSingleExp'])){
         <label for=''> Expense type *</label>
         <select name='etype1' id='etype1' class='form-control' required>";
 
-        $sql = "SELECT * FROM expense_type WHERE expense_type_id = $id";
+        $sql = "SELECT * FROM expense_type WHERE expense_type_id = $type_id";
         $re = mysqli_query($con, $sql);
         while($ro = mysqli_fetch_assoc($re)){
-            $id  = $ro['expense_type_id'];
-            $name  = $ro['name'];
+            $opt_id  = $ro['expense_type_id'];
+            $opt_name  = $ro['name'];
             echo "
-                <option value='$id'>$name</option>
+                <option value='$opt_id'>$opt_name</option>
             ";
         }
 
-        $sql = "SELECT * FROM expense_type WHERE expense_type_id != $id";
+        $sql = "SELECT * FROM expense_type WHERE expense_type_id != $type_id ORDER BY name ASC";
         $re = mysqli_query($con, $sql);
         while($ro = mysqli_fetch_assoc($re)){
-            $id  = $ro['expense_type_id'];
-            $name  = $ro['name'];
+            $opt_id  = $ro['expense_type_id'];
+            $opt_name  = $ro['name'];
             echo "
-                <option value='$id'>$name</option>
+                <option value='$opt_id'>$opt_name</option>
             ";
         }
 
@@ -107,8 +109,8 @@ if(isset($_POST['editSingleExp'])){
 
       <div class='form-group col-md-4'>
         <label for=''> Expense For *</label>
-        <input type='hidden' name='exp' id='exp' value='$id'>
-        <input type='text' name='name1' value='$name' id='name1' class='form-control' required placeholder='Enter expense for' autocomplete='off'>
+        <input type='hidden' name='exp' id='exp' value='$expense_id'>
+        <input type='text' name='name1' value='$exp_name' id='name1' class='form-control' required placeholder='Enter expense for' autocomplete='off'>
       </div>
       <div class='form-group col-md-4'>
         <label for=''> Date *</label>
@@ -125,25 +127,25 @@ if(isset($_POST['editSingleExp'])){
       <div class='form-group col-md-6'>
         <label for=''> Account *</label>
         <select name='account1' id='account1' class='form-control' required>";
-        $stmt = "SELECT * FROM account WHERE account_id = $acc";
+        $stmt = "SELECT * FROM account WHERE account_id = $acc_id";
         $result = mysqli_query($con, $stmt);
         while($row = mysqli_fetch_assoc($result)){
-            $id  = $row['account_id'];
-            $name  = $row['account_name'];
+            $opt_id  = $row['account_id'];
+            $opt_name  = $row['account_name'];
             $num  = $row['account_number'];
             echo "
-                <option value='$id'>$name - $num</option>
+                <option value='$opt_id'>$opt_name - $num</option>
             ";
         }
           
-        $stmt = "SELECT * FROM account WHERE account_id != $acc";
+        $stmt = "SELECT * FROM account WHERE account_id != $acc_id ORDER BY account_name ASC";
         $result = mysqli_query($con, $stmt);
         while($row = mysqli_fetch_assoc($result)){
-            $id  = $row['account_id'];
-            $name  = $row['account_name'];
+            $opt_id  = $row['account_id'];
+            $opt_name  = $row['account_name'];
             $num  = $row['account_number'];
             echo "
-                <option value='$id'>$name - $num</option>
+                <option value='$opt_id'>$opt_name - $num</option>
             ";
         }
           
@@ -163,6 +165,7 @@ if(isset($_POST['editSingleExp'])){
 }
 
 if(isset($_POST['exp'])){
+    header('Content-Type: application/json');
     // Check if user is logged in
     if(!isset($_SESSION['uid']) || !isset($_SESSION['isLogedIn'])){
         echo json_encode(array('error' => 'not_logged_in'));
