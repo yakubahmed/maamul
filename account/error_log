@@ -1,0 +1,2 @@
+[23-Jul-2022 19:56:21 UTC] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, bool given in /home/eiileqyd/public_html/app/inc/sidebar.php on line 33
+[23-Jul-2022 19:56:31 UTC] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, bool given in /home/eiileqyd/public_html/app/inc/sidebar.php on line 33

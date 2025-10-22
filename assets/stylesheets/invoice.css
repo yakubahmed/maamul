@@ -1,0 +1,41 @@
+body {
+    font-family: Arial, sans-serif;
+  }
+  @media print {
+    body {
+      width: 210mm;
+      height: 297mm;
+      margin: 0;
+      padding: 20px;
+    }
+    .page {
+      page-break-before: always;
+    }
+  }
+  .invoice {
+    margin-top: 4%;
+    margin-bottom: 4%;
+    padding: 20px;
+    border: 1px solid #000;
+    page-break-inside: avoid;
+  }
+  .header,
+  .footer {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .footer {
+
+    bottom: 0;
+   
+  }
+  table.table-bordered > thead > tr > th{
+    background: #df697b;
+    border-color: #df697b;
+    color:white;
+}
+table.table-bordered > tbody > tr > td{
+  
+    border-color: #df697b;
+
+}

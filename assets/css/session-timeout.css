@@ -1,0 +1,118 @@
+/* Session Timeout Modal Styles */
+
+#sessionTimeoutModal .modal-content {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+#sessionTimeoutModal .modal-header {
+    border-radius: 10px 10px 0 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+#sessionTimeoutModal .modal-body {
+    padding: 2rem;
+}
+
+#sessionTimeoutModal .countdown-display {
+    margin: 1.5rem 0;
+}
+
+#sessionTimeoutModal .badge {
+    font-family: 'Courier New', monospace;
+    letter-spacing: 2px;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+#sessionTimeoutModal .btn-lg {
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    margin: 0 10px;
+}
+
+#sessionTimeoutModal .btn-success {
+    background: linear-gradient(45deg, #28a745, #20c997);
+    border: none;
+    transition: all 0.3s ease;
+}
+
+#sessionTimeoutModal .btn-success:hover {
+    background: linear-gradient(45deg, #218838, #1e7e34);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+}
+
+#sessionTimeoutModal .btn-secondary {
+    background: linear-gradient(45deg, #6c757d, #5a6268);
+    border: none;
+    transition: all 0.3s ease;
+}
+
+#sessionTimeoutModal .btn-secondary:hover {
+    background: linear-gradient(45deg, #5a6268, #495057);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(108, 117, 125, 0.4);
+}
+
+#sessionTimeoutModal .fa-exclamation-triangle {
+    animation: shake 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes shake {
+    0% {
+        transform: rotate(-5deg);
+    }
+
+    100% {
+        transform: rotate(5deg);
+    }
+}
+
+/* Loading spinner for extend button */
+.fa-spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive design */
+@media (max-width: 576px) {
+    #sessionTimeoutModal .modal-body {
+        padding: 1.5rem;
+    }
+
+    #sessionTimeoutModal .btn-lg {
+        display: block;
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    #sessionTimeoutModal .modal-footer {
+        flex-direction: column;
+    }
+}
+
+

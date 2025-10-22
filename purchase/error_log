@@ -1,0 +1,9 @@
+[28-Jul-2022 07:33:45 UTC] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, bool given in /home/eiileqyd/public_html/app/inc/nav.php on line 87
+[28-Jul-2022 07:33:45 UTC] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, bool given in /home/eiileqyd/public_html/app/inc/nav.php on line 87
+[28-Jul-2022 07:33:45 UTC] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, bool given in /home/eiileqyd/public_html/app/inc/sidebar.php on line 35
+[02-Oct-2022 09:22:22 UTC] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, bool given in /home/eiileqyd/public_html/app/inc/nav.php on line 87
+[02-Oct-2022 09:22:22 UTC] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, bool given in /home/eiileqyd/public_html/app/inc/nav.php on line 87
+[02-Oct-2022 09:22:22 UTC] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, bool given in /home/eiileqyd/public_html/app/inc/sidebar.php on line 35
+[27-Dec-2022 09:47:41 UTC] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, bool given in /home/eiileqyd/public_html/app/inc/nav.php on line 87
+[27-Dec-2022 09:47:41 UTC] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, bool given in /home/eiileqyd/public_html/app/inc/nav.php on line 87
+[27-Dec-2022 09:47:41 UTC] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, bool given in /home/eiileqyd/public_html/app/inc/sidebar.php on line 35
