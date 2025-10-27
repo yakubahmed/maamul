@@ -1,0 +1,58 @@
+UPDATE menu SET menu_name = 'Iib' WHERE menu_id = 1;
+UPDATE menu SET menu_name = 'Macaamiisha' WHERE menu_id = 2;
+UPDATE menu SET menu_name = 'Shirkadaha Badeecada' WHERE menu_id = 3;
+UPDATE menu SET menu_name = 'Alaabta' WHERE menu_id = 4;
+UPDATE menu SET menu_name = 'Kaydka' WHERE menu_id = 5;
+UPDATE menu SET menu_name = 'Iibsiga' WHERE menu_id = 6;
+UPDATE menu SET menu_name = 'Kharashka' WHERE menu_id = 7;
+UPDATE menu SET menu_name = 'Xisaabaadka' WHERE menu_id = 9;
+UPDATE menu SET menu_name = 'Isticmaalayaasha' WHERE menu_id = 10;
+UPDATE menu SET menu_name = 'Warbixinaha' WHERE menu_id = 11;
+UPDATE menu SET menu_name = 'Qiimayn / Xigasho' WHERE menu_id = 13;
+UPDATE menu SET menu_name = 'Dejinta' WHERE menu_id = 14;
+UPDATE menu SET menu_name = 'Warqadda Dhiibista' WHERE menu_id = 15;
+
+
+
+
+UPDATE submenu SET sub_menu_name = 'Iib cusub' WHERE submenu_id = 1;
+UPDATE submenu SET sub_menu_name = 'Liiska iibka' WHERE submenu_id = 2;
+UPDATE submenu SET sub_menu_name = 'Ku dar macmiil' WHERE submenu_id = 4;
+UPDATE submenu SET sub_menu_name = 'Liiska macaamiisha' WHERE submenu_id = 5;
+UPDATE submenu SET sub_menu_name = 'Ku dar shirkadaha' WHERE submenu_id = 6;
+UPDATE submenu SET sub_menu_name = 'Liiska shirkadaha' WHERE submenu_id = 7;
+UPDATE submenu SET sub_menu_name = 'Ku dar shay' WHERE submenu_id = 8;
+UPDATE submenu SET sub_menu_name = 'Liiska alaabta' WHERE submenu_id = 9;
+UPDATE submenu SET sub_menu_name = 'Nooca alaabta' WHERE submenu_id = 10;
+UPDATE submenu SET sub_menu_name = 'Cabbirka alaabta' WHERE submenu_id = 11;
+UPDATE submenu SET sub_menu_name = 'Hagaajin kayd' WHERE submenu_id = 13;
+UPDATE submenu SET sub_menu_name = 'Iibsasho cusub' WHERE submenu_id = 15;
+UPDATE submenu SET sub_menu_name = 'Liiska iibsashada' WHERE submenu_id = 16;
+UPDATE submenu SET sub_menu_name = 'Kharash cusub' WHERE submenu_id = 17;
+UPDATE submenu SET sub_menu_name = 'Liiska kharashaadka' WHERE submenu_id = 18;
+UPDATE submenu SET sub_menu_name = 'Ku dar akoon' WHERE submenu_id = 21;
+UPDATE submenu SET sub_menu_name = 'Liiska akoonada' WHERE submenu_id = 22;
+UPDATE submenu SET sub_menu_name = 'Ku dar isticmaalaha' WHERE submenu_id = 23;
+UPDATE submenu SET sub_menu_name = 'Liiska isticmaalayaasha' WHERE submenu_id = 24;
+UPDATE submenu SET sub_menu_name = 'Warbixinta iibka' WHERE submenu_id = 26;
+UPDATE submenu SET sub_menu_name = 'Warbixinta iibsashada' WHERE submenu_id = 28;
+UPDATE submenu SET sub_menu_name = 'Warbixinta alaabta ugu iibka badan' WHERE submenu_id = 29;
+UPDATE submenu SET sub_menu_name = 'Warbixinta shaqaalaha' WHERE submenu_id = 30;
+UPDATE submenu SET sub_menu_name = 'Warbixinta kharashaadka' WHERE submenu_id = 31;
+UPDATE submenu SET sub_menu_name = 'Nooca kharashka' WHERE submenu_id = 32;
+UPDATE submenu SET sub_menu_name = 'Warbixinta faa’iido iyo khasaaro' WHERE submenu_id = 34;
+UPDATE submenu SET sub_menu_name = 'Warbixinta iibka alaabta' WHERE submenu_id = 35;
+UPDATE submenu SET sub_menu_name = 'Warbixinta iibsiga alaabta' WHERE submenu_id = 36;
+UPDATE submenu SET sub_menu_name = 'Ku dar qiimeyn' WHERE submenu_id = 37;
+UPDATE submenu SET sub_menu_name = 'Liiska qiimeynta' WHERE submenu_id = 38;
+UPDATE submenu SET sub_menu_name = 'Kayd iyo soo celin' WHERE submenu_id = 40;
+UPDATE submenu SET sub_menu_name = 'Cusbooneysiin' WHERE submenu_id = 41;
+UPDATE submenu SET sub_menu_name = 'Warbixinta iibka alaabta guud' WHERE submenu_id = 42;
+UPDATE submenu SET sub_menu_name = 'Ku dar waraaqda keenista' WHERE submenu_id = 43;
+UPDATE submenu SET sub_menu_name = 'Liiska waraaqaha keenista' WHERE submenu_id = 44;
+UPDATE submenu SET sub_menu_name = 'Habka keenista' WHERE submenu_id = 45;
+UPDATE submenu SET sub_menu_name = 'POS' WHERE submenu_id = 46;
+UPDATE submenu SET sub_menu_name = 'Faahfaahinta alaabta' WHERE submenu_id = 51;
+UPDATE submenu SET sub_menu_name = 'Warbixinta kaydka alaabta' WHERE submenu_id = 52;
+UPDATE submenu SET sub_menu_name = 'Warbixinta kaydka alaabta' WHERE submenu_id = 53;
+
