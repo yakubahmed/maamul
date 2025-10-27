@@ -14,9 +14,9 @@ input[type=number] {
 </style>
 
 <?php $title = "Add new quotation"; include(ROOT_PATH . '/inc/header.php'); ?>
-      <?php $menu = 'Quotation / Estimate'  ?>
+      <?php $menu = 'Qiimayn'  ?>
       
-      <?php $smenu = 'Add qoutation'  ?>
+      <?php $smenu = 'Ku dar qiimeyn'  ?>
   <body>
     <!-- .app -->
     <div class="app">

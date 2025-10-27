@@ -5,9 +5,9 @@
 </style>
 
 <?php $title = 'Quotation list';  include(ROOT_PATH . '/inc/header.php'); ?>
-      <?php $menu = 'Quotation / Estimate'  ?>
+      <?php $menu = 'Qiimayn'  ?>
       
-      <?php $smenu = 'Quotation list'  ?>
+      <?php $smenu = 'Liiska qiimeynta'  ?>
   <body>
     <!-- .app -->
     <div class="app">

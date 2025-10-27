@@ -38,7 +38,7 @@ input[type=number] {
 }
 </style>
 <?php $title = 'POS'; include(ROOT_PATH . '/inc/header.php'); ?>
-<?php $menu = 'Sale'  ?>
+<?php $menu = 'Iib'  ?>
       
       <?php $smenu = 'POS'  ?>
   <body class='app '>

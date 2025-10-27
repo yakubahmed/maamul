@@ -4,10 +4,10 @@
  
 </style>
 
-<?php $title = "Add Delivery note"; include(ROOT_PATH . '/inc/header.php'); ?>
-      <?php $menu = 'Delivery note'  ?>
+<?php $title = "Warqadda Dhiibista"; include(ROOT_PATH . '/inc/header.php'); ?>
+      <?php $menu = 'Warqadda Dhiibista'  ?>
       
-      <?php $smenu = 'Add delivery note'  ?>
+      <?php $smenu = 'Ku dar waraaqda keenista'  ?>
   <body>
     <!-- .app -->
     <div class="app">

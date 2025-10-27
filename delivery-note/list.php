@@ -4,7 +4,7 @@
  
 </style>
 
-<?php $title = 'Delivery note list';  include(ROOT_PATH . '/inc/header.php'); ?>
+<?php $title = 'Warqadda Dhiibista';  include(ROOT_PATH . '/inc/header.php'); ?>
   <body>
     <!-- .app -->
     <div class="app">
@@ -15,9 +15,9 @@
       <?php include(ROOT_PATH .'/inc/nav.php'); ?>
       <!-- .app-aside -->
       
-            <?php $menu = 'Delivery note'  ?>
+            <?php $menu = 'Warqadda Dhiibista'  ?>
       
-      <?php $smenu = 'Delivery note list'  ?>
+      <?php $smenu = 'Liiska waraaqaha keenista'  ?>
 
       <?php include(ROOT_PATH . '/inc/sidebar.php'); ?>
       <!-- .app-main -->

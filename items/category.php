@@ -5,9 +5,9 @@
 </style>
 
 <?php $title = "Item Category"; include(ROOT_PATH . '/inc/header.php'); ?>
-      <?php $menu = 'Items'  ?>
+      <?php $menu = 'Alaabta'  ?>
       
-      <?php $smenu = 'Category'  ?>
+      <?php $smenu = 'Nooca alaabta'  ?>
   <body>
     <!-- .app -->
     <div class="app">

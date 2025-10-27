@@ -5,9 +5,9 @@
 </style>
 
 <?php $title = "Unit measurement"; include(ROOT_PATH . '/inc/header.php'); ?>
-      <?php $menu = 'Items'  ?>
+      <?php $menu = 'Alaabta'  ?>
       
-      <?php $smenu = 'Unit measurement '  ?>
+      <?php $smenu = 'Cabbirka alaabta'  ?>
   <body>
     <!-- .app -->
     <div class="app">

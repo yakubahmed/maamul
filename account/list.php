@@ -5,9 +5,9 @@
 </style>
 
 <?php $title = 'Account list';  include(ROOT_PATH . '/inc/header.php'); ?>
-      <?php $menu = 'Koonto'  ?>
+      <?php $menu = 'Xisaabaadka'  ?>
       
-      <?php $smenu = 'Liiska koontada'  ?>
+      <?php $smenu = 'Liiska akoonada'  ?>
   <body>
     <!-- .app -->
     <div class="app">

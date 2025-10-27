@@ -5,9 +5,9 @@
 </style>
 
 <?php $title = 'Sale history';  include(ROOT_PATH . '/inc/header.php'); ?>
-      <?php $menu = 'Sale'  ?>
+      <?php $menu = 'Iib'  ?>
       
-      <?php $smenu = 'Sales history'  ?>
+      <?php $smenu = 'Liiska iibka'  ?>
   <body>
     <!-- .app -->
     <div class="app">

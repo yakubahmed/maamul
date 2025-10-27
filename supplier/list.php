@@ -5,9 +5,9 @@
 </style>
 
 <?php $title = 'Supplier list';  include(ROOT_PATH . '/inc/header.php'); ?>
-      <?php $menu = 'Suppliers'  ?>
+      <?php $menu = 'Shirkadaha Badeecada'  ?>
       
-      <?php $smenu = 'Supplier list'  ?>
+      <?php $smenu = 'Liiska shirkadaha'  ?>
   <body>
     <!-- .app -->
     <div class="app">

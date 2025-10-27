@@ -14,7 +14,7 @@ input[type=number] {
 </style>
 
 <?php $title = "New Purchase"; include(ROOT_PATH . '/inc/header.php'); ?>
-      <?php $menu = 'Soo iibin'  ?>
+      <?php $menu = 'Iibsiga'  ?>
       
       <?php $smenu = 'Iibsasho cusub'  ?>
   <body>

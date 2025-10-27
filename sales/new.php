@@ -17,9 +17,9 @@ input[type=number] {
 <audio id="audio" src="<?= BASE_URL ?>assets/sound/add.mp4"></audio>
 
 <?php $title = "New Sale"; include(ROOT_PATH . '/inc/header.php'); ?>
-      <?php $menu = 'Sale'  ?>
+      <?php $menu = 'Iib'  ?>
       
-      <?php $smenu = 'New sale'  ?>
+      <?php $smenu = 'Iib cusub'  ?>
   <body>
     <!-- .app -->
     <div class="app">

@@ -5,9 +5,9 @@
 </style>
 
 <?php $title = "Add Account"; include(ROOT_PATH . '/inc/header.php'); ?>
-      <?php $menu = 'Koonto'  ?>
+      <?php $menu = 'Xisaabaadka'  ?>
       
-      <?php $smenu = 'Sameey koonto'  ?>
+      <?php $smenu = 'Ku dar akoon'  ?>
   <body>
     <!-- .app -->
     <div class="app">

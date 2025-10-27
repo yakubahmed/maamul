@@ -122,6 +122,49 @@ $(document).on('theme:init', function () {
   new SessionTimeoutDemo();
 });
     </script>
+
+    <!-- Chatbot widget -->
+    <style>
+      .chatbot-toggle{position:fixed;right:20px;bottom:20px;z-index:1050}
+      .chatbot-panel{position:fixed;right:20px;bottom:80px;width:320px;max-height:460px;background:#fff;border:1px solid #e5e5e5;border-radius:8px;box-shadow:0 6px 24px rgba(0,0,0,.15);display:none;z-index:1050;overflow:hidden}
+      .chatbot-header{background:#346cb0;color:#fff;padding:10px 12px;display:flex;align-items:center;justify-content:space-between}
+      .chatbot-body{padding:10px;height:300px;overflow:auto}
+      .chatbot-input{display:flex;gap:8px;padding:8px;border-top:1px solid #eee}
+      .chat-msg{margin:6px 0;padding:8px 10px;border-radius:8px;max-width:85%}
+      .chat-user{background:#e9f2ff;margin-left:auto}
+      .chat-bot{background:#f6f7f9}
+      .chat-links a{display:inline-block;margin-right:6px;margin-top:6px}
+    </style>
+    <div class="chatbot-toggle">
+      <button id="chatbot_btn" class="btn btn-primary shadow rounded-circle" style="width:56px;height:56px"><i class="fa fa-comments"></i></button>
+    </div>
+    <div id="chatbot_panel" class="chatbot-panel">
+      <div class="chatbot-header">
+        <span><i class="fa fa-robot mr-1"></i> Assistant</span>
+        <button class="btn btn-sm btn-light" id="chatbot_close"><i class="fa fa-times"></i></button>
+      </div>
+      <div class="chatbot-body" id="chatbot_body">
+        <div class="chat-msg chat-bot">Hi! Ask me things like "current balance", "today sales", or type "reports".</div>
+      </div>
+      <div class="chatbot-input">
+        <input type="text" id="chatbot_input" class="form-control" placeholder="Type a message..." autocomplete="off">
+        <button id="chatbot_send" class="btn btn-primary"><i class="fa fa-paper-plane"></i></button>
+      </div>
+    </div>
+    <script>
+      (function(){
+        var panel = $('#chatbot_panel');
+        $('#chatbot_btn').on('click', function(){ panel.toggle(); if(panel.is(':visible')){ $('#chatbot_input').focus(); }});
+        $('#chatbot_close').on('click', function(){ panel.hide(); });
+        function appendMsg(text, cls){ $('#chatbot_body').append($('<div>').addClass('chat-msg '+cls).text(text)); $('#chatbot_body').scrollTop($('#chatbot_body')[0].scrollHeight); }
+        function appendLinks(links){ if(!links||!links.length) return; var wrap = $('<div class="chat-links chat-msg chat-bot"></div>'); links.forEach(function(l){ wrap.append('<a class="btn btn-sm btn-outline-primary" target="_blank" href="'+l.url+'">'+l.label+'</a>'); }); $('#chatbot_body').append(wrap); $('#chatbot_body').scrollTop($('#chatbot_body')[0].scrollHeight); }
+        function send(){ var msg = $('#chatbot_input').val().trim(); if(!msg) return; appendMsg(msg,'chat-user'); $('#chatbot_input').val('');
+          $.ajax({ url: '<?= BASE_URL ?>jquery/chatbot.php', type:'post', dataType:'json', data:{message: msg}, success: function(res){ if(res && res.reply){ appendMsg(res.reply,'chat-bot'); appendLinks(res.links); } else { appendMsg('Sorry, something went wrong.','chat-bot'); } }, error: function(){ appendMsg('Network error. Please try again.','chat-bot'); } });
+        }
+        $('#chatbot_send').on('click', send);
+        $('#chatbot_input').on('keypress', function(e){ if(e.which === 13){ send(); }});
+      })();
+    </script>
   </body>
 
 </html>

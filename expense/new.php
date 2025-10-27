@@ -6,9 +6,9 @@
 
 <?php $title = "Add Expense"; include(ROOT_PATH . '/inc/header.php'); ?>
 
-      <?php $menu = 'Expense'  ?>
+      <?php $menu = 'Kharashka'  ?>
       
-      <?php $smenu = 'New expense'  ?>
+      <?php $smenu = 'Kharash cusub'  ?>
       
   <body>
     <!-- .app -->

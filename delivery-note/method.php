@@ -5,9 +5,9 @@
 </style>
 
 <?php $title = "Delivery method"; include(ROOT_PATH . '/inc/header.php'); ?>
-      <?php $menu = 'Delivery note'  ?>
+      <?php $menu = 'Warqadda Dhiibista'  ?>
       
-      <?php $smenu = 'Delivery method'  ?>
+      <?php $smenu = 'Habka keenista'  ?>
   <body>
     <!-- .app -->
     <div class="app">
