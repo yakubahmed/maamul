@@ -46,6 +46,53 @@
                 <div class="section-block">
                 <div class="section-block">
                   
+                  <!-- Current Balance - Full Width -->
+                  <div class="metric-row mt-2">
+                    <div class="col-12">
+                      <div class="metric metric-bordered">
+                        <h2 class="metric-label"> Current Balance </h2>
+                        <?php 
+                          $salesPaid = 0; 
+                          $purchasePaid = 0; 
+                          $expenseTotal = 0; 
+
+                          // Total sales paid amount (customer payments)
+                          $res = mysqli_query($con, "SELECT SUM(amount) FROM payment");
+                          if($res){
+                            $r = mysqli_fetch_array($res);
+                            if(!empty($r[0])){ $salesPaid = (float)$r[0]; }
+                          }
+
+                          // Total purchase paid amount (supplier payments)
+                          $res = mysqli_query($con, "SELECT SUM(amount) FROM pur_payments");
+                          if($res){
+                            $r = mysqli_fetch_array($res);
+                            if(!empty($r[0])){ $purchasePaid = (float)$r[0]; }
+                          }
+
+                          // Total expenses
+                          $res = mysqli_query($con, "SELECT SUM(amount) FROM expense");
+                          if($res){
+                            $r = mysqli_fetch_array($res);
+                            if(!empty($r[0])){ $expenseTotal = (float)$r[0]; }
+                          }
+
+                          // Balance = Sales Paid - Purchase Paid - Expenses
+                          $currentBalance = $salesPaid - $purchasePaid - $expenseTotal;
+                          $balanceFull = number_format($currentBalance, 2, '.', ',');
+                          $isNegative = $currentBalance < 0;
+                          $valueClass = $isNegative ? 'text-danger' : 'text-success';
+                          $sign = $isNegative ? '-' : '';
+                          $shortVal = empty($currentBalance) ? '0.00' : shortNumber(abs($currentBalance));
+                        ?>
+                        <p class="metric-value h1" data-placement="top" title="<?= $balanceFull ?>">
+                          <sup>$</sup> <span class="value <?= $valueClass ?>"><?php echo $sign . $shortVal; ?></span>
+                        </p>
+                        <p class="text-muted small mb-0">Sales paid − Purchases paid − Expenses</p>
+                      </div>
+                    </div>
+                  </div>
+
                   <div class="metric-row">
                     <!-- metric column -->
                     <div class="col-md-3">
@@ -121,6 +168,8 @@
 
                     
                   </div><!-- /metric row -->
+
+                  <!-- Current Balance Widget moved to top row -->
                   <div class="">
                       <div class="metric-row ">
                         <!-- metric column -->
@@ -272,7 +321,7 @@
                                 <span class="info-box-number"> <strong>
                                 <?php 
                                     $today = date('Y-m-d');
-                                    $stmt  = "SELECT SUM(pr_af_dis) FROM orders WHERE DATE(sale_date) = '$today'";
+                                    $stmt  = "SELECT SUM(pr_af_dis) FROM orders WHERE DATE(order_date) = '$today'";
                                     $result = mysqli_query($con, $stmt);
                                     if($result){
                                       $row = mysqli_fetch_array($result);
