@@ -313,9 +313,14 @@ if(isset($_POST['commitPurchaseCart'])){
     
     // Add payment if amount > 0 and payment method selected
     if($paid_amount > 0 && $payment_method > 0){
-        $stmt = "INSERT INTO pur_payments (purchase_id, amount, account, date, created_by) ";
+        $stmt = "INSERT INTO pur_payments (pur_id, amount, account, date, created_by) ";
         $stmt .= "VALUES ($purchase_id, $paid_amount, $payment_method, '$date', $user_id)";
-        mysqli_query($con, $stmt);
+        $payment_result = mysqli_query($con, $stmt);
+        
+        if(!$payment_result){
+            error_log("Payment insert failed: " . mysqli_error($con));
+            // Don't fail the entire purchase, just log the error
+        }
     }
     
     // Clear session cart and global discount

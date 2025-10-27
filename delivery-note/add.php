@@ -56,7 +56,7 @@
                         
                         <form class='row' method='post' id='frmShowRep'>
 
-                        <div class="form-group col-md-4">
+                          <div class="form-group col-md-4">
                             <label for="">INVOICE NUMBER *</label>
                             <div class="input-group mb-3">
                               <div class="input-group-prepend">
@@ -64,9 +64,30 @@
                                   INV-
                                 </div>
                               </div>
-                              <input type="text" class="form-control" aria-label="" name='invoicenum' id='invoicenum' autocomplete='off' required>
-                            
+                              <input type="text" class="form-control" aria-label="Invoice number" name='invoicenum' id='invoicenum' list="invoiceList" placeholder="Start typing invoice no" autocomplete='off' required>
                             </div>
+                            <?php 
+                              // Build datalist options from recent invoices
+                              $opts = [];
+                              $q = mysqli_query($con, "SELECT ser FROM orders ORDER BY order_id DESC LIMIT 100");
+                              if($q){
+                                while($r = mysqli_fetch_assoc($q)){
+                                  $ser = isset($r['ser']) ? $r['ser'] : '';
+                                  if($ser !== ''){
+                                    // Strip INV- prefix if present
+                                    $num = (stripos($ser, 'INV-') === 0) ? substr($ser, 4) : $ser;
+                                    // Only keep numeric-ish suggestions
+                                    $num_clean = preg_replace('/[^0-9A-Za-z-]/', '', $num);
+                                    if($num_clean !== ''){ $opts[$num_clean] = true; }
+                                  }
+                                }
+                              }
+                            ?>
+                            <datalist id="invoiceList">
+                              <?php foreach(array_keys($opts) as $v): ?>
+                                <option value="<?= htmlspecialchars($v, ENT_QUOTES) ?>"></option>
+                              <?php endforeach; ?>
+                            </datalist>
                           </div>
                           
                           <div class="form-group col-md-4">
@@ -203,46 +224,67 @@ $(document).ready(function(){
     $.ajax({
       url:'../jquery/delivery.php', 
       type:'post', 
-      dataType: 'json',
+      // Expect mixed responses (JSON for errors, HTML for success)
+      dataType: 'text',
       data: $('#frmShowRep').serialize(),
       success: function(res){
         $('.overlay').addClass('d-none')
         
-        // Handle JSON response for session expired
-        if(typeof res === 'object' && res.error === 'Session expired'){
-          toastr.error("Your session has expired. Please login again.")
-          setTimeout(function(){
-            window.location.href = '<?= BASE_URL ?>login.php'
-          }, 2000);
-          return;
-        }
-        
-        // Handle JSON responses
-        if(typeof res === 'object'){
-          if(res.error === 'not_logged_in'){
+        // Try to parse as JSON first
+        var obj = null;
+        try { obj = JSON.parse(res); } catch(e) { obj = null; }
+
+        if(obj && typeof obj === 'object'){
+          // JSON responses
+          if(obj.error === 'Session expired'){
+            toastr.error("Your session has expired. Please login again.")
+            setTimeout(function(){ window.location.href = '<?= BASE_URL ?>login.php' }, 2000);
+            return;
+          }
+          if(obj.error === 'not_logged_in'){
             toastr.error("You must be logged in to view delivery information")
             window.location.href = '<?= BASE_URL ?>login.php'
-          }else{
-            toastr.error("An error occurred while checking the invoice")
-            console.error('Unexpected response:', res)
+            return;
           }
+          toastr.error("An error occurred while checking the invoice")
+          console.error('Unexpected response:', obj)
+          return;
+        }
+
+        // Handle text/HTML responses
+        if(res === 'not-found'){
+          $('#msgModal').modal();
         }else{
-          // Handle legacy string responses (fallback)
-          if(res == 'not-found'){
-            $('#msgModal').modal();
-          }else{
-            $('#resp').removeClass('d-none')
-            $('#res').html(res)
-          }
+          $('#resp').removeClass('d-none')
+          $('#res').html(res)
         }
       },
       error: function(xhr, status, error){
         $('.overlay').addClass('d-none')
-        toastr.error("Network error occurred. Please check your connection.")
-        console.error('AJAX Error:', error)
+        var msg = "Network error occurred. Please check your connection.";
+        // Surface parser errors (often caused by mixed content-type)
+        if(status === 'parsererror'){
+          msg = 'Response parse error. Please try again.';
+        }
+        toastr.error(msg)
+        console.error('AJAX Error:', status, error, xhr && xhr.responseText)
       }
     })
   })
+
+  // Auto-submit when a valid invoice is selected from datalist
+  try{
+    var invSet = new Set([]);
+    $('#invoiceList option').each(function(){ invSet.add($(this).val()); });
+    $('#invoicenum').on('change', function(){
+      if(invSet.has($(this).val())){
+        $('#frmShowRep').trigger('submit');
+      }
+    });
+  }catch(err){
+    // silent fail if datalist not supported
+    console.warn('Invoice datalist init failed:', err);
+  }
 
 
   $(document).on('blur', '.delivered', function(){

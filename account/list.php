@@ -115,36 +115,55 @@
                               function get_balance($id, $date_from = null, $date_to = null){
                                 global $con; 
                                 
-                                // Build date filter conditions
-                                $date_filter = "";
+                                // Build date filter conditions for payment
+                                $payment_date_filter = "";
                                 if(!empty($date_from) && !empty($date_to)){
-                                  $date_filter = " AND DATE(trans_date) BETWEEN '$date_from' AND '$date_to'";
+                                  $payment_date_filter = " AND DATE(payment.date) BETWEEN '$date_from' AND '$date_to'";
                                 } elseif(!empty($date_from)){
-                                  $date_filter = " AND DATE(trans_date) >= '$date_from'";
+                                  $payment_date_filter = " AND DATE(payment.date) >= '$date_from'";
                                 } elseif(!empty($date_to)){
-                                  $date_filter = " AND DATE(trans_date) <= '$date_to'";
+                                  $payment_date_filter = " AND DATE(payment.date) <= '$date_to'";
                                 }
                                 
-                                // Get total sales amount (pr_af_dis = price after discount)
-                                // This represents the actual sales revenue for this account
-                                $stmt = "SELECT SUM(pr_af_dis) FROM orders WHERE order_id IN (
-                                          SELECT order_id FROM payment WHERE account = $id
-                                        ) $date_filter";
+                                // Get total sales income (from customer payments)
+                                $stmt = "SELECT SUM(amount) FROM payment WHERE account = $id $payment_date_filter";
                                 $result = mysqli_query($con, $stmt);
                                 $row = mysqli_fetch_array($result);
-                                $sales_total = $row[0];
-                                if(empty($sales_total)){$sales_total = 0;}
+                                $sales_income = $row[0];
+                                if(empty($sales_income)){$sales_income = 0;}
                                 
                                 // Get total expenses for this account with date filter
-                                $expense_date_filter = str_replace('trans_date', 'reg_date', $date_filter);
+                                $expense_date_filter = "";
+                                if(!empty($date_from) && !empty($date_to)){
+                                  $expense_date_filter = " AND DATE(reg_date) BETWEEN '$date_from' AND '$date_to'";
+                                } elseif(!empty($date_from)){
+                                  $expense_date_filter = " AND DATE(reg_date) >= '$date_from'";
+                                } elseif(!empty($date_to)){
+                                  $expense_date_filter = " AND DATE(reg_date) <= '$date_to'";
+                                }
                                 $s = "SELECT SUM(amount) FROM expense WHERE account = $id $expense_date_filter";
                                 $re = mysqli_query($con, $s);
                                 $rw = mysqli_fetch_array($re);
                                 $expense = $rw[0];
                                 if(empty($expense)){$expense = 0;}
                                 
-                                // Balance = Sales Revenue - Expenses
-                                $total = $sales_total - $expense;
+                                // Get total purchase expenses (supplier payments)
+                                $purchase_date_filter = "";
+                                if(!empty($date_from) && !empty($date_to)){
+                                  $purchase_date_filter = " AND DATE(date) BETWEEN '$date_from' AND '$date_to'";
+                                } elseif(!empty($date_from)){
+                                  $purchase_date_filter = " AND DATE(date) >= '$date_from'";
+                                } elseif(!empty($date_to)){
+                                  $purchase_date_filter = " AND DATE(date) <= '$date_to'";
+                                }
+                                $p = "SELECT SUM(amount) FROM pur_payments WHERE account = $id $purchase_date_filter";
+                                $pr = mysqli_query($con, $p);
+                                $prw = mysqli_fetch_array($pr);
+                                $purchase = $prw[0];
+                                if(empty($purchase)){$purchase = 0;}
+                                
+                                // Balance = Sales Income - Expenses - Purchase Expenses
+                                $total = $sales_income - $expense - $purchase;
 
                                 return number_format($total, 2, '.', ',');
                               }

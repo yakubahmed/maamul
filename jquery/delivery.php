@@ -1,24 +1,19 @@
 <?php 
 include('../path.php');
-
-// Check for session timeout before including config
-if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > 1800)) {
-    // Session has expired - return JSON response for AJAX
-    header('Content-Type: application/json');
-    echo json_encode(array('error' => 'Session expired', 'redirect' => true));
-    exit();
-}
-
+include('../inc/session_config.php');
 session_start();
 
+// Include DB and session timeout handling (updates last_activity)
 include('../inc/config.php');
-
-// Set proper headers for AJAX requests
-header('Content-Type: application/json');
 
 date_default_timezone_set('Africa/Nairobi');
 
+// Lookup items for a given invoice number (returns HTML rows or 'not-found')
 if(isset($_POST['invoicenum'])){
+    // This branch returns HTML content, not JSON
+    if(!headers_sent()){
+        header('Content-Type: text/html; charset=UTF-8');
+    }
     //$dmeth = mysqli_real_escape_string($con, $_POST['dmeth']);
     $invoicenum = mysqli_real_escape_string($con, 'INV-' . $_POST['invoicenum']);
     //$ddate = mysqli_real_escape_string($con, $_POST['ddate']);
@@ -57,9 +52,12 @@ if(isset($_POST['invoicenum'])){
 
 }
 
-//Saving 
+// Saving (returns JSON)
 
 if(isset($_POST['invoice'])){
+    if(!headers_sent()){
+        header('Content-Type: application/json');
+    }
     // Check if user is logged in
     if(!isset($_SESSION['uid']) || !isset($_SESSION['isLogedIn'])){
         // Debug: Log session state
@@ -111,29 +109,24 @@ if(isset($_POST['invoice'])){
 
 }
 
+// View single delivery note details (returns HTML)
 if(isset($_POST['viewSingleDel'])){
     $id = $_POST['viewSingleDel'];
     function total_items_unit($id){
         global $con;
-        $stmt = "SELECT SUM(qty), unit.shortname FROM del_note_item, unit WHERE unit.unit_id IN (SELECT unit_id FROM item WHERE item.item_id IN (select item_id FROM del_note_item WHERE del_note_item.del_note_id = $id))";
+        $stmt = "SELECT u.shortname FROM del_note_item d JOIN unit u ON u.unit_id = d.unit_id WHERE d.del_note_id = $id LIMIT 1";
         $result = mysqli_query($con, $stmt);
-        $row = mysqli_fetch_array($result);
-        return $row[1];
+        if($result && ($row = mysqli_fetch_array($result))){
+          return $row[0];
+        }
+        return '';
       }
 
       function del_items_unit($id){
-        global $con;
-        $stmt = "SELECT SUM(qty), unit.shortname FROM del_note_item, unit WHERE unit.unit_id IN (SELECT unit_id FROM item WHERE item.item_id IN (select item_id FROM del_note_item WHERE del_note_item.del_note_id = $id))";
-        $result = mysqli_query($con, $stmt);
-        $row = mysqli_fetch_array($result);
-        return $row[1];
+        return total_items_unit($id);
       }
       function balance_unit($id){
-        global $con;
-        $stmt = "SELECT SUM(qty), unit.shortname FROM del_note_item, unit WHERE unit.unit_id IN (SELECT unit_id FROM item WHERE item.item_id IN (select item_id FROM del_note_item WHERE del_note_item.del_note_id = $id))";
-        $result = mysqli_query($con, $stmt);
-        $row = mysqli_fetch_array($result);
-        return $row[1];
+        return total_items_unit($id);
       }
 
 
@@ -141,22 +134,28 @@ if(isset($_POST['viewSingleDel'])){
         global $con;
         $stmt = "SELECT SUM(qty) FROM del_note_item WHERE del_note_id  = $id";
         $result = mysqli_query($con, $stmt);
-        $row = mysqli_fetch_array($result);
-        return $row[0];
+        if($result && ($row = mysqli_fetch_array($result))){
+          return $row[0];
+        }
+        return 0;
     }
     function del_items($id){
         global $con;
         $stmt = "SELECT SUM(delivered) FROM del_note_item WHERE del_note_id  = $id";
         $result = mysqli_query($con, $stmt);
-        $row = mysqli_fetch_array($result);
-        return $row[0];
+        if($result && ($row = mysqli_fetch_array($result))){
+          return $row[0];
+        }
+        return 0;
     }
     function balance($id){
         global $con;
         $stmt = "SELECT SUM(balance) FROM del_note_item WHERE del_note_id  = $id";
         $result = mysqli_query($con, $stmt);
-        $row = mysqli_fetch_array($result);
-        return $row[0];
+        if($result && ($row = mysqli_fetch_array($result))){
+          return $row[0];
+        }
+        return 0;
     }
   
 
@@ -268,7 +267,11 @@ if(isset($_POST['viewSingleDel'])){
     
 }
 
+// Delete delivery note (returns JSON)
 if(isset($_POST['btnDelSale'])){
+    if(!headers_sent()){
+        header('Content-Type: text/plain; charset=UTF-8');
+    }
     // Check if user is logged in
     if(!isset($_SESSION['uid']) || !isset($_SESSION['isLogedIn'])){
         echo json_encode(array('error' => 'not_logged_in'));
@@ -280,9 +283,12 @@ if(isset($_POST['btnDelSale'])){
     $stmt = "DELETE FROM del_note WHERE del_note_id = $id";
     $result = mysqli_query($con, $stmt);
     if($result){
-        echo json_encode(array('success' => true));
+        if(function_exists('ob_get_level') && ob_get_level() > 0){ @ob_clean(); }
+        echo 'deleted';
+        exit;
     }else{
-        echo json_encode(array('error' => 'delete_failed', 'message' => mysqli_error($con)));
+        if(function_exists('ob_get_level') && ob_get_level() > 0){ @ob_clean(); }
+        echo 'error';
+        exit;
     }
 }
-?>

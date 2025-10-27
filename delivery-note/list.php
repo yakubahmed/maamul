@@ -52,49 +52,52 @@
                           <i class="fas fa-2x fa-sync fa-spin text-light"></i>
                       </div>
                       <?php 
+                        // Fetch a representative unit shortname for a delivery note
                         function total_items_unit($id){
                           global $con;
-                          $stmt = "SELECT SUM(qty), unit.shortname FROM del_note_item, unit WHERE unit.unit_id IN (SELECT unit_id FROM item WHERE item.item_id IN (select item_id FROM del_note_item WHERE del_note_item.del_note_id = $id))";
+                          $stmt = "SELECT u.shortname FROM del_note_item d JOIN unit u ON u.unit_id = d.unit_id WHERE d.del_note_id = $id LIMIT 1";
                           $result = mysqli_query($con, $stmt);
-                          $row = mysqli_fetch_array($result);
-                          return $row[1];
+                          if($result && ($row = mysqli_fetch_array($result))){
+                            return $row[0];
+                          }
+                          return '';
                         }
 
                         function del_items_unit($id){
-                          global $con;
-                          $stmt = "SELECT SUM(qty), unit.shortname FROM del_note_item, unit WHERE unit.unit_id IN (SELECT unit_id FROM item WHERE item.item_id IN (select item_id FROM del_note_item WHERE del_note_item.del_note_id = $id))";
-                          $result = mysqli_query($con, $stmt);
-                          $row = mysqli_fetch_array($result);
-                          return $row[1];
+                          // Same logic as total_items_unit
+                          return total_items_unit($id);
                         }
                         function balance_unit($id){
-                          global $con;
-                          $stmt = "SELECT SUM(qty), unit.shortname FROM del_note_item, unit WHERE unit.unit_id IN (SELECT unit_id FROM item WHERE item.item_id IN (select item_id FROM del_note_item WHERE del_note_item.del_note_id = $id))";
-                          $result = mysqli_query($con, $stmt);
-                          $row = mysqli_fetch_array($result);
-                          return $row[1];
+                          // Same logic as total_items_unit
+                          return total_items_unit($id);
                         }
 
                         function total_items($id){
                             global $con;
                             $stmt = "SELECT SUM(qty) FROM del_note_item WHERE del_note_id  = $id";
                             $result = mysqli_query($con, $stmt);
-                            $row = mysqli_fetch_array($result);
-                            return $row[0];
+                            if($result && ($row = mysqli_fetch_array($result))){
+                              return $row[0];
+                            }
+                            return 0;
                         }
                         function del_items($id){
                             global $con;
                             $stmt = "SELECT SUM(delivered) FROM del_note_item WHERE del_note_id  = $id";
                             $result = mysqli_query($con, $stmt);
-                            $row = mysqli_fetch_array($result);
-                            return $row[0];
+                            if($result && ($row = mysqli_fetch_array($result))){
+                              return $row[0];
+                            }
+                            return 0;
                         }
                         function balance($id){
                             global $con;
                             $stmt = "SELECT SUM(balance) FROM del_note_item WHERE del_note_id  = $id";
                             $result = mysqli_query($con, $stmt);
-                            $row = mysqli_fetch_array($result);
-                            return $row[0];
+                            if($result && ($row = mysqli_fetch_array($result))){
+                              return $row[0];
+                            }
+                            return 0;
                         }
                       ?>
                       
@@ -326,7 +329,7 @@ $(document).ready(function(){
                     if(data == 'deleted'){
                       Swal.fire(
                         'Deleted!',
-                        'Category deleted successfully.',
+                        'Delivery note deleted successfully.',
                         'success'
                       )
                       location.reload();

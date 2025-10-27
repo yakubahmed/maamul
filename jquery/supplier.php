@@ -12,6 +12,7 @@ if(isset($_POST['cname'])){
     $email  = mysqli_real_escape_string($con, $_POST['cemail'] ) ;
     $addr  = mysqli_real_escape_string($con, $_POST['addr'] ) ;
     $status  = mysqli_real_escape_string($con, $_POST['status'] ) ;
+    $balance = isset($_POST['balance']) ? floatval($_POST['balance']) : 0;
 
     // Validate required fields
     if(empty($cname) || empty($phone) || empty($status)){
@@ -21,6 +22,7 @@ if(isset($_POST['cname'])){
 
     $userid = $_SESSION['uid'];
     $date = date('Y-m-d h:i:s a');
+    $current_date = date('Y-m-d');
 
 
     $stmt = "SELECT * FROM supplier WHERE phone_num = '$phone' ";
@@ -39,6 +41,16 @@ if(isset($_POST['cname'])){
             $stmt .= " VALUES ('$serial', '$cname', '$phone','$email', '$addr',  '$status', '$date', '$userid', 1)";
             $result = mysqli_query($con, $stmt); 
             if($result){
+                $supplier_id = mysqli_insert_id($con);
+                
+                // If balance is provided, create a purchase record for opening balance
+                if($balance > 0){
+                    $purchase_serial = "PUR-OB-" . $supplier_id;
+                    $purchase_stmt = "INSERT INTO purchase (supp_id, pur_status, pur_by, trans_date, warehouse, pur_date, ser, p_be_dis, gtotal, paid_amount, balance, payment_status) ";
+                    $purchase_stmt .= "VALUES ($supplier_id, 'Recieved', $userid, '$date', 1, '$current_date', '$purchase_serial', $balance, $balance, 0, $balance, 'Not paid')";
+                    mysqli_query($con, $purchase_stmt);
+                }
+                
                 echo 'success';
             }else{
                 echo 'error: ' . mysqli_error($con);
@@ -58,6 +70,16 @@ if(isset($_POST['cname'])){
                $stmt .= " VALUES ('$serial', '$cname', '$phone','$email', '$addr',  '$status', '$date', '$userid', 1)";
                $result = mysqli_query($con, $stmt); 
                if($result){
+                   $supplier_id = mysqli_insert_id($con);
+                   
+                   // If balance is provided, create a purchase record for opening balance
+                   if($balance > 0){
+                       $purchase_serial = "PUR-OB-" . $supplier_id;
+                       $purchase_stmt = "INSERT INTO purchase (supp_id, pur_status, pur_by, trans_date, warehouse, pur_date, ser, p_be_dis, gtotal, paid_amount, balance, payment_status) ";
+                       $purchase_stmt .= "VALUES ($supplier_id, 'Recieved', $userid, '$date', 1, '$current_date', '$purchase_serial', $balance, $balance, 0, $balance, 'Not paid')";
+                       mysqli_query($con, $purchase_stmt);
+                   }
+                   
                    echo 'success';
                }else{
                    echo 'error: ' . mysqli_error($con);

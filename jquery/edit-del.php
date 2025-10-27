@@ -1,15 +1,25 @@
 <?php 
+include('../path.php');
+include('../inc/session_config.php');
 session_start();
 
 include('../inc/config.php');
 
 date_default_timezone_set('Africa/Nairobi');
 
+// Ensure clean, whitespace-free plain text responses for this endpoint
+if(!headers_sent()){
+    header('Content-Type: text/plain; charset=UTF-8');
+}
+if (function_exists('ob_get_level') && ob_get_level() > 0) {
+    @ob_clean();
+}
+
 if(isset($_POST['invoice'])){
     $dmeth = mysqli_real_escape_string($con, $_POST['dmeth']);
     $invoicenum = mysqli_real_escape_string($con, 'INV-' . $_POST['invoice']);
     $ddate = mysqli_real_escape_string($con, $_POST['ddate']);
-    $id = $_SESSION['uid'];
+    // $id is not used here; avoid undefined index notice if not set
     $date = date('Y-m-d');
     $did = $_POST['did'];
 
@@ -31,12 +41,9 @@ if(isset($_POST['invoice'])){
                
             }   
         }
-        
         echo 'success';
+        exit;
 
     }
 
 }
-
-
-?>

@@ -36,10 +36,6 @@ input[type=number] {
 .cart-actions .btn {
     line-height: 1;
 }
-
-/* Hide sidebar on POS page only */
-aside.app-aside { display: none !important; }
-.app-main { margin-left: 0 !important; }
 </style>
 <?php $title = 'POS'; include(ROOT_PATH . '/inc/header.php'); ?>
 <?php $menu = 'Sale'  ?>
