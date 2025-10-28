@@ -1,0 +1,81 @@
+
+// View single delivery note details (returns HTML)
+if(isset($_POST['viewSingleDel'])){
+    $id = $_POST['viewSingleDel'];
+    function total_items_unit($id){
+        global $con;
+        $stmt = "SELECT SUM(qty), unit.shortname FROM del_note_item, unit WHERE unit.unit_id IN (SELECT unit_id FROM item WHERE item.item_id IN (select item_id FROM del_note_item WHERE del_note_item.del_note_id = $id))";
+        $result = mysqli_query($con, $stmt);
+        $row = mysqli_fetch_array($result);
+        return $row[1];
+      }
+
+      function del_items_unit($id){
+        global $con;
+        $stmt = "SELECT SUM(qty), unit.shortname FROM del_note_item, unit WHERE unit.unit_id IN (SELECT unit_id FROM item WHERE item.item_id IN (select item_id FROM del_note_item WHERE del_note_item.del_note_id = $id))";
+        $result = mysqli_query($con, $stmt);
+        $row = mysqli_fetch_array($result);
+        return $row[1];
+      }
+      function balance_unit($id){
+        global $con;
+        $stmt = "SELECT SUM(qty), unit.shortname FROM del_note_item, unit WHERE unit.unit_id IN (SELECT unit_id FROM item WHERE item.item_id IN (select item_id FROM del_note_item WHERE del_note_item.del_note_id = $id))";
+        $result = mysqli_query($con, $stmt);
+        $row = mysqli_fetch_array($result);
+        return $row[1];
+      }
+
+
+    function total_items($id){
+        global $con;
+        $stmt = "SELECT SUM(qty) FROM del_note_item WHERE del_note_id  = $id";
+        $result = mysqli_query($con, $stmt);
+        $row = mysqli_fetch_array($result);
+        return $row[0];
+    }
+    function del_items($id){
+        global $con;
+        $stmt = "SELECT SUM(delivered) FROM del_note_item WHERE del_note_id  = $id";
+        $result = mysqli_query($con, $stmt);
+        $row = mysqli_fetch_array($result);
+        return $row[0];
+    }
+    function balance($id){
+        global $con;
+        $stmt = "SELECT SUM(balance) FROM del_note_item WHERE del_note_id  = $id";
+        $result = mysqli_query($con, $stmt);
+        $row = mysqli_fetch_array($result);
+        return $row[0];
+    }
+  
+
+    $stmt = "SELECT del_note.del_note_id, del_note.invoice_number,del_note.despatch_date,users.fullname ,del_note.tran_date, delivery_method.meth_name, customer.cust_name, customer.cust_phone FROM del_note, delivery_method,users ,customer 
+    WHERE del_note.cust_id = customer.customer_id AND del_note.del_method = delivery_method.del_meth_id AND users.userid = del_note.delivery_by AND del_note.del_note_id = $id";
+    $result = mysqli_query($con, $stmt);
+    while($row = mysqli_fetch_assoc($result)){
+        $invoice =  $row['invoice_number'];
+        $did = 'DEL-' . $row['del_note_id'];
+        $date = date('d-m-Y', strtotime($row['tran_date']));
+        $date = date('d-m-Y', strtotime($row['despatch_date']));
+        $customer = $row['cust_name'];
+        $userby = $row['fullname'];
+        $total_unit = total_items_unit($row['del_note_id']);
+        $del_items_unit = del_items_unit($row['del_note_id']);
+        $balance_unit = balance_unit($row['del_note_id']);
+        $total =  total_items($row['del_note_id']);
+        $del =  del_items($row['del_note_id']);
+        $balance =  balance($row['del_note_id']);
+
+        echo "
+        <div class='col-md-12'> <hr> </div>
+
+            <div class='form-group col-md-4'>
+                <label for=''> <strong>Inoive No</strong> </label>
+                <p>$invoice</p>
+                
+            </div>
+            <div class='form-group col-md-4'>
+                <label for=''> <strong>Del No</strong> </label>
+                <p>$did</p>
+                
+            </div>

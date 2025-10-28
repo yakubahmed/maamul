@@ -1,0 +1,101 @@
+                            ?>
+                          </span>
+                        </p>
+                      </div><!-- /.metric -->
+                    </div><!-- /metric column -->
+                    <!-- metric column -->
+                    <div class="col-md-3">
+                      <!-- .metric -->
+                      <div class="metric metric-bordered">
+                        <h2 class="metric-label"> Total Purchases </h2>
+                      <?php 
+                          $stmt  = "SELECT SUM(gtotal) FROM purchase";
+                          $result = mysqli_query($con, $stmt);
+                          $row = mysqli_fetch_array($result);    ?>
+                        <p class="metric-value h1" data-placement="top" title="<?= $row[0] ?>">
+                          <sup>$</sup> <span class="value">
+                              <?php  if ( empty($row[0])) { echo "0.00"; }else { echo shortNumber($row[0]);} ?>
+                          </span>
+                        </p>
+                      </div><!-- /.metric -->
+                    </div><!-- /metric column -->
+
+                    
+                  </div><!-- /metric row -->
+                  <div class="">
+                      <div class="metric-row ">
+                        <!-- metric column -->
+                          <div class="col-md-3 col-sm-6 col-12">
+                            <div class="info-box">
+                              <span class="info-box-icon bg-warning text-light"><i class="fa fa-list"></i></span>
+
+                              <div class="info-box-content">
+                                <span class="info-box-text">Items</span>
+                                <span class="info-box-number"><strong>
+                                  <?php 
+                                    $stmt  = "SELECT COUNT(*) FROM item";
+                                    $result = mysqli_query($con, $stmt);
+                                    while($row = mysqli_fetch_array($result)){
+                                      echo $row[0];
+                                    }
+                                  ?>
+                                </strong></span>
+                              </div>
+                              <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                          </div>     
+                        <!-- metric column -->
+                          <div class="col-md-3 col-sm-6 col-12">
+                            <div class="info-box">
+                              <span class="info-box-icon bg-success text-light"><i class="fa fa-users"></i></span>
+
+                              <div class="info-box-content">
+                                <span class="info-box-text">Customers</span>
+                                <span class="info-box-number"> <strong>
+                                  <?php 
+                                    $stmt  = "SELECT COUNT(*) FROM customer";
+                                    $result = mysqli_query($con, $stmt);
+                                    while($row = mysqli_fetch_array($result)){
+                                      echo $row[0];
+                                    }
+                                  ?>
+                                </strong> </span>
+                              </div>
+                              <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                          </div>     
+                        <!-- metric column -->
+                          <div class="col-md-3 col-sm-6 col-12">
+                            <div class="info-box">
+                              <span class="info-box-icon bg-primary text-light"><i class="fa fa-truck"></i></span>
+
+                              <div class="info-box-content">
+                                <span class="info-box-text">Suppliers</span>
+                                <span class="info-box-number"> <strong>
+                                <?php 
+                                    $stmt  = "SELECT COUNT(*) FROM supplier";
+                                    $result = mysqli_query($con, $stmt);
+                                    while($row = mysqli_fetch_array($result)){
+                                      echo $row[0];
+                                    }
+                                  ?>
+                                </strong> </span>
+                              </div>
+                              <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                          </div>     
+                        <!-- metric column -->
+                          <div class="col-md-3 col-sm-6 col-12">
+                            <div class="info-box">
+                              <span class="info-box-icon bg-danger text-white"><i class="fa fa-user-graduate"></i></span>
+
+                              <div class="info-box-content">
+                                <span class="info-box-text">Employee's</span>
+                                <span class="info-box-number">
+                                <?php 
+                                    $stmt  = "SELECT COUNT(*) FROM users";
+                                    $result = mysqli_query($con, $stmt);
+                                    while($row = mysqli_fetch_array($result)){

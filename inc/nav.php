@@ -62,7 +62,7 @@
                   <a class="dropdown-item" href="<?= BASE_URL ?>user-profile"><span class="dropdown-icon oi oi-person"></span> <?= __t('Profile') ?></a>
                   <a class="dropdown-item" href="<?= BASE_URL ?>logout"><span class="dropdown-icon oi oi-account-logout"></span> <?= __t('Logout') ?></a>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#"><?= __t('Help Center') ?></a>  
+                  <a class="dropdown-item" href="<?= BASE_URL ?>chatbot/index.php"><?= __t('Help Center') ?></a>  
                 </div><!-- /.dropdown-menu -->
               </div><!-- /.btn-account -->
             </div><!-- /.top-bar-item -->

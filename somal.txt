@@ -56,3 +56,6 @@ UPDATE submenu SET sub_menu_name = 'Faahfaahinta alaabta' WHERE submenu_id = 51;
 UPDATE submenu SET sub_menu_name = 'Warbixinta kaydka alaabta' WHERE submenu_id = 52;
 UPDATE submenu SET sub_menu_name = 'Warbixinta kaydka alaabta' WHERE submenu_id = 53;
 
+
+
+UPDATE `submenu` SET `sub_menu_name` = 'Alaabta ugu iibka badan' WHERE `submenu`.`submenu_id` = 29; UPDATE `submenu` SET `sub_menu_name` = 'Faa’iido iyo khasaaro' WHERE `submenu`.`submenu_id` = 34; UPDATE `submenu` SET `sub_menu_name` = 'Iibka alaabta' WHERE `submenu`.`submenu_id` = 35; UPDATE `submenu` SET `sub_menu_name` = 'Iibsiga alaabta' WHERE `submenu`.`submenu_id` = 36; UPDATE `submenu` SET `sub_menu_name` = 'Iibka alaabta guud' WHERE `submenu`.`submenu_id` = 42; UPDATE `submenu` SET `sub_menu_name` = 'Kaydka alaabta' WHERE `submenu`.`submenu_id` = 53;
