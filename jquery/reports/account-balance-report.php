@@ -41,9 +41,9 @@ if(isset($_POST['show_report'])){
                     <th>#</th>
                     <th>Account Name</th>
                     <th>Account Number</th>
-                    <th>Sales Income</th>
-                    <th>Expenses</th>
-                    <th>Purchase Expenses</th>
+                    <th>Sales Paid</th>
+                    <th>Total Expense</th>
+                    <th>Purchase Paid</th>
                     <th>Balance</th>
                 </tr>
             </thead>
@@ -142,16 +142,16 @@ if(isset($_POST['show_report'])){
         <div class='col-md-3'>
             <div class='card bg-success text-white'>
                 <div class='card-body text-center'>
-                    <h5>Total Sales Income</h5>
+                    <h5>Total Sales Paid</h5>
                     <h3>\$" . number_format($grand_total_income, 2) . "</h3>
-                    <small>From customer payments</small>
+                    <small>From sales payments</small>
                 </div>
             </div>
         </div>
         <div class='col-md-3'>
             <div class='card bg-danger text-white'>
                 <div class='card-body text-center'>
-                    <h5>Total Expenses</h5>
+                    <h5>Total Expense</h5>
                     <h3>\$" . number_format($grand_total_expenses, 2) . "</h3>
                     <small>Business expenses</small>
                 </div>
@@ -160,7 +160,7 @@ if(isset($_POST['show_report'])){
         <div class='col-md-3'>
             <div class='card bg-warning text-white'>
                 <div class='card-body text-center'>
-                    <h5>Purchase Expenses</h5>
+                    <h5>Purchase Paid</h5>
                     <h3>\$" . number_format($grand_total_purchases, 2) . "</h3>
                     <small>Supplier payments</small>
                 </div>
@@ -171,7 +171,7 @@ if(isset($_POST['show_report'])){
                 <div class='card-body text-center'>
                     <h5>Net Balance</h5>
                     <h3>\$" . number_format($grand_total_balance, 2) . "</h3>
-                    <small>Income - Expenses - Purchases</small>
+                    <small>Sales Paid - Total Expense - Purchase Paid</small>
                 </div>
             </div>
         </div>
