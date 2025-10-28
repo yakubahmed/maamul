@@ -107,31 +107,7 @@ $(document).ready(function(){
       $list.append(item);
     });
   }
-
-  ,
-      success:function(res){
-        if(res.success){
-          toastr.success('Updated successfully');
-          checkUpdates();
-        }else if(res.error === 'no_network'){
-          setStatus('<span class="text-danger"><i class="fa fa-exclamation-triangle"></i> No network connection. Please check your internet.</span>');
-        }else if(res.error === 'shell_disabled'){
-          setStatus('<span class="text-warning"><i class="fa fa-info-circle"></i> Server shell execution is disabled. Cannot apply updates.</span>');
-        }else if(res.error === 'not_git_repo'){
-          setStatus('<span class="text-warning"><i class="fa fa-info-circle"></i> Updates cannot be applied for this installation.</span>');
-        }else if(res.error === 'not_logged_in'){
-          toastr.error('Session expired. Please login again.');
-          setTimeout(function(){ window.location.href = '<?= BASE_URL ?>login.php'; }, 1500);
-        }else{
-          setStatus('<span class="text-danger">'+(res.message||'Failed to apply updates.')+'</span>');
-        }
-      },
-      error:function(xhr){
-        console.log('AJAX Error:', xhr.responseText);
-        setStatus('<span class="text-danger">Network error. Please try again.</span>');
-      }
-    });
-  }
+  
 
   $('#btn_check_updates').on('click', function(){
     checkUpdatesFriendly();
