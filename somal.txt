@@ -59,3 +59,15 @@ UPDATE submenu SET sub_menu_name = 'Warbixinta kaydka alaabta' WHERE submenu_id 
 
 
 UPDATE `submenu` SET `sub_menu_name` = 'Alaabta ugu iibka badan' WHERE `submenu`.`submenu_id` = 29; UPDATE `submenu` SET `sub_menu_name` = 'Faa’iido iyo khasaaro' WHERE `submenu`.`submenu_id` = 34; UPDATE `submenu` SET `sub_menu_name` = 'Iibka alaabta' WHERE `submenu`.`submenu_id` = 35; UPDATE `submenu` SET `sub_menu_name` = 'Iibsiga alaabta' WHERE `submenu`.`submenu_id` = 36; UPDATE `submenu` SET `sub_menu_name` = 'Iibka alaabta guud' WHERE `submenu`.`submenu_id` = 42; UPDATE `submenu` SET `sub_menu_name` = 'Kaydka alaabta' WHERE `submenu`.`submenu_id` = 53;
+
+
+// Updated queries 
+
+INSERT INTO `menu` (`menu_id`, `menu_name`, `menu_icon`, `has_sup_menu`, `url`, `sort_by`) VALUES (NULL, 'Lacag deen', 'fa-hand-holding-usd', NULL, NULL, '');
+
+INSERT INTO `submenu` (`submenu_id`, `menu_id`, `parent_submenu_id`, `sub_menu_name`, `url`, `sort_order`) VALUES (NULL, '16', NULL, 'Deen cusub', 'loans/new', '0'), (NULL, '16', NULL, 'Liiska deenta', 'loans/list', '0');
+
+INSERT INTO `previlage` (`prev_id`, `group_id`, `sub_menu_id`, `date`, `view`, `edit`, `add`, `delete`) VALUES (NULL, '1', '57', NULL, '0', '0', '0', '0'), (NULL, '1', '58', NULL, '0', '0', '0', '0');
+
+
+UPDATE `menu` SET `menu_icon` = 'menu-icon fa fa-handshake' WHERE `menu`.`menu_id` = 16;

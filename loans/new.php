@@ -1,7 +1,7 @@
 <?php include('../path.php'); ?>
 <?php $title = "New Money Loan"; include(ROOT_PATH . '/inc/header.php'); ?>
-<?php $menu = 'Loans' ?>
-<?php $smenu = 'New Money Loan' ?>
+<?php $menu = 'Lacag deen' ?>
+<?php $smenu = 'Deen cusub' ?>
 
 <body>
   <div class="app">

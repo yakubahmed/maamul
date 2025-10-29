@@ -55,12 +55,20 @@
                           $salesPaid = 0; 
                           $purchasePaid = 0; 
                           $expenseTotal = 0; 
+                          $loanTotal = 0;
 
                           // Total sales paid amount (customer payments)
                           $res = mysqli_query($con, "SELECT SUM(amount) FROM orders");
                           if($res){
                             $r = mysqli_fetch_array($res);
                             if(!empty($r[0])){ $salesPaid = (float)$r[0]; }
+                          }
+
+                          // Total loan amount balance
+                          $res = mysqli_query($con, "SELECT sum(balance) FROM `money_loan`");;
+                          if($res){   
+                            $r = mysqli_fetch_array($res);
+                            if(!empty($r[0])){ $loanTotal = (float)$r[0]; }
                           }
 
                           // Total purchase paid amount (supplier payments)
@@ -78,7 +86,7 @@
                           }
 
                           // Balance = Sales Paid - Purchase Paid - Expenses
-                          $currentBalance = $salesPaid - $purchasePaid - $expenseTotal;
+                          $currentBalance = $salesPaid - $purchasePaid - $expenseTotal - $loanTotal;
                           $balanceFull = number_format($currentBalance, 2, '.', ',');
                           $isNegative = $currentBalance < 0;
                           $valueClass = $isNegative ? 'text-danger' : 'text-success';
