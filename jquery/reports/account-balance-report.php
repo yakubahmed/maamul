@@ -57,33 +57,32 @@ if(isset($_POST['show_report'])){
             $account_name = $row['account_name'];
             $account_number = $row['account_number'];
 
-            // Get total sales income (from payment table - sales payments)
-            $sales_stmt = "SELECT SUM(payment.amount) as total_income 
-                          FROM payment 
-                          INNER JOIN orders ON payment.order_id = orders.order_id
-                          WHERE payment.account = $account_id 
-                          AND DATE(payment.date) BETWEEN '$fdate' AND '$tdate'";
+            // Get total sales paid from orders table (requested behavior)
+            $sales_stmt = "SELECT COALESCE(SUM(payment.amount),0) as total_income 
+                           FROM payment 
+                           WHERE payment.account = $account_id 
+                           AND DATE(payment.date) BETWEEN '$fdate' AND '$tdate'";
             $sales_result = mysqli_query($con, $sales_stmt);
             $sales_row = mysqli_fetch_assoc($sales_result);
-            $total_income = $sales_row['total_income'] ?? 0;
+            $total_income = isset($sales_row['total_income']) ? (float)$sales_row['total_income'] : 0;
 
             // Get total expenses (from expense table)
-            $expense_stmt = "SELECT SUM(amount) as total_expense 
+            $expense_stmt = "SELECT COALESCE(SUM(amount),0) as total_expense 
                             FROM expense 
                             WHERE account = $account_id 
                             AND DATE(reg_date) BETWEEN '$fdate' AND '$tdate'";
             $expense_result = mysqli_query($con, $expense_stmt);
             $expense_row = mysqli_fetch_assoc($expense_result);
-            $total_expense = $expense_row['total_expense'] ?? 0;
+            $total_expense = isset($expense_row['total_expense']) ? (float)$expense_row['total_expense'] : 0;
 
             // Get total purchase expenses (from pur_payments table)
-            $purchase_stmt = "SELECT SUM(amount) as total_purchase 
+            $purchase_stmt = "SELECT COALESCE(SUM(amount),0) as total_purchase 
                              FROM pur_payments 
                              WHERE account = $account_id 
                              AND DATE(date) BETWEEN '$fdate' AND '$tdate'";
             $purchase_result = mysqli_query($con, $purchase_stmt);
             $purchase_row = mysqli_fetch_assoc($purchase_result);
-            $total_purchase = $purchase_row['total_purchase'] ?? 0;
+            $total_purchase = isset($purchase_row['total_purchase']) ? (float)$purchase_row['total_purchase'] : 0;
 
             // Calculate balance: Sales Income - Expenses - Purchase Expenses
             $balance = $total_income - $total_expense - $total_purchase;

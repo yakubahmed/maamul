@@ -35,6 +35,9 @@
                 </div>
                 <div class="col-md-6 text-right">
                     <a href="<?= BASE_URL ?>customer/add" class="btn btn-info text-right"> <i class="fa fa-user-plus"></i> Macaamiil cusub </a>
+                    <a href="<?= BASE_URL ?>amaano/new" class="btn btn-outline-primary text-right ml-2"> <i class="fa fa-hand-holding"></i> New Loan </a>
+                    <a href="<?= BASE_URL ?>amaano/list" class="btn btn-outline-secondary text-right ml-1"> <i class="fa fa-list"></i> Loan List </a>
+                    <a href="<?= BASE_URL ?>amaano/bixin" class="btn btn-outline-success text-right ml-1"> <i class="fa fa-undo"></i> Return Loan </a>
                 </div>
                 <a href="<?= BASE_URL ?>customer/add" class="btn btn-success btn-floated "><span class="fa fa-plus my-2"></span></a>
               </div>
@@ -119,6 +122,9 @@
                                                     <button type='button' data-toggle='modal' data-target='#custDetailModal' id='view_cust' data-id='$cust_id' class='dropdown-item'> <i class='fa fa-eye'></i> View Customer</button> 
                                                     <button type='button' data-toggle='modal' data-target='#editCustModal' id='edit_cust' data-id='$cust_id' class='dropdown-item'> <i class='fa fa-edit'></i> Edit Customer</button>
                                                     <button type='button' class='dropdown-item btn-danger' id='del_cust' data-id='$cust_id'><i class='fa fa-trash'></i> Delete Customer</button>
+                                                    <div class='dropdown-divider'></div>
+                                                    <a href='<?= BASE_URL ?>amaano/new?customer_id=$cust_id' class='dropdown-item'> <i class='fa fa-hand-holding'></i> New Loan</a>
+                                                    <a href='<?= BASE_URL ?>amaano/bixin?customer_id=$cust_id' class='dropdown-item'> <i class='fa fa-undo'></i> Return Loan</a>
                                                   </div>
                                                 </div>
                                               "; }echo "

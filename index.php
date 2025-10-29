@@ -57,14 +57,14 @@
                           $expenseTotal = 0; 
 
                           // Total sales paid amount (customer payments)
-                          $res = mysqli_query($con, "SELECT SUM(amount) FROM payment");
+                          $res = mysqli_query($con, "SELECT SUM(amount) FROM orders");
                           if($res){
                             $r = mysqli_fetch_array($res);
                             if(!empty($r[0])){ $salesPaid = (float)$r[0]; }
                           }
 
                           // Total purchase paid amount (supplier payments)
-                          $res = mysqli_query($con, "SELECT SUM(amount) FROM pur_payments");
+                          $res = mysqli_query($con, "SELECT SUM(paid_amount) FROM purchase");
                           if($res){
                             $r = mysqli_fetch_array($res);
                             if(!empty($r[0])){ $purchasePaid = (float)$r[0]; }
